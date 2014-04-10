@@ -13,12 +13,12 @@ __TODO__
 
 ## Usage & Help
 
-[See wiki pages](/bsara/pickacolor.js/wiki)
+[See wiki pages](https://github.com/bsara/pickacolor.js/wiki)
 
 
 ## Want to Contribute?
 
-[See contribution info page](CONTRIBUTING.md)
+[See the contribution info page](CONTRIBUTING.md)
 
 
 ## License
