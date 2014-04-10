@@ -1,0 +1,15 @@
+# Misc Files/Folders
+.DS_Store
+.empty
+.svn
+*~
+Thumbs.db
+
+
+# Build Files/Folders
+/build
+
+
+# Sublime Files/Folders
+/*.sublime-workspace
+/*.sublime-project

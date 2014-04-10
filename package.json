@@ -1,0 +1,12 @@
+{
+  "title": "PickAColor.js",
+  "name": "pickacolorjs",
+  "homepage": "https://www.github.com/bsara/pickacolor.js",
+  "version": "0.0.0",
+  "licenses": [
+    "https://www.github.com/bsara/pickacolor.js/blob/master/LICENSES"
+  ],
+  "author": {
+    "name": "Brandon Sara (bsara)"
+  }
+}
