@@ -11,19 +11,14 @@ A simple component to select color in the same way you select color in Adobe Pho
 __TODO__
 
 
-## Setup
+## Usage & Help
 
-__TODO__
+[See wiki pages](/bsara/pickacolor.js/wiki)
 
 
 ## Build
 
 __TODO__
-
-
-## Usage & Help
-
-[See wiki pages](wiki)
 
 
 ## License
