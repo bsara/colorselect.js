@@ -16,9 +16,9 @@ __TODO__
 [See wiki pages](/bsara/pickacolor.js/wiki)
 
 
-## Build
+## Want to Contribute?
 
-__TODO__
+[See contribution info page](CONTRIBUTING.md)
 
 
 ## License

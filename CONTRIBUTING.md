@@ -1,4 +1,6 @@
-PickAColor.js - Contributing
-=============================
+PickAColor.js
+=============
+
+## Contributing
 
 __TODO__
