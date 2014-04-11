@@ -3,7 +3,7 @@ PickAColor.js
 
 #### This project is a fork of "colorpicker" released 23.05.2009 by Stefan Petre which can be found here: http://www.eyecon.ro/colorpicker
 
-A simple javascript component to select a color the same way you select a color in Adobe Photoshop.
+A simple, yet stylish, javascript color picker.
 
 
 ## What's Different from the Original Project?
@@ -13,7 +13,7 @@ __TODO__
 
 ## Usage & Help
 
-[See wiki pages](https://github.com/bsara/pickacolor.js/wiki)
+[See wiki](https://github.com/bsara/pickacolor.js/wiki)
 
 
 ## Want to Contribute?
