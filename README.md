@@ -8,7 +8,7 @@ A simple, yet stylish, javascript color picker.
 
 ## Features
 
-__TODO__
+**This section has not yet been written! Please check back later.**
 
 
 ## Documentation & Usage

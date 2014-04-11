@@ -1,6 +1,4 @@
-PickAColor.js
-=============
+Contributing
+============
 
-## Contributing
-
-__TODO__
+**This page has not yet been written! Please check back later.**
