@@ -1,0 +1,35 @@
+{
+  "name": "PickAColor.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bsara/pickacolor.js",
+  "authors": [
+    "Brandon Sara <bsara.dev@gmail.com>"
+  ],
+  "description": "A simple javascript component to select a color the same way you select a color in Adobe Photoshop.",
+  "keywords": [
+    "pickacolor",
+    "color",
+    "picker",
+    "colorpicker"
+  ],
+  "main": [
+    "dist/pickacolor.min.js"
+  ],
+  "license": "MIT, GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "build",
+    "components",
+    "src",
+    "node_modules",
+    "test",
+    "gulpfile.coffee",
+    "package.json",
+    "CONTRIBUTING.md",
+    "README.md",
+    "LICENSES"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.0"
+  }
+}

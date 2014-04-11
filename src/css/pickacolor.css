@@ -41,7 +41,7 @@
   left: 171px;
   width: 35px;
   height: 150px;
-  cursor: n-resize;
+  cursor: row-resize;
 }
 .pickacolor_hue div {
   position: absolute;
@@ -106,7 +106,7 @@
   overflow: hidden;
   top: 0;
   right: 0;
-  cursor: n-resize;
+  cursor: row-resize;
 }
 .pickacolor_rgb_r {
   background-image: url(../images/pickacolor_rgb_r.png);

@@ -6,6 +6,11 @@
 Thumbs.db
 
 
+# Package Management Folders
+/components
+/node_modules
+
+
 # Build Files/Folders
 /build
 
