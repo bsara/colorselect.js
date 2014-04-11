@@ -1,9 +1,9 @@
 PickAColor.js
-==============
-
-#### This project is a fork of "colorpicker" released 23.05.2009 by Stefan Petre which can be found here: http://www.eyecon.ro/colorpicker
+=============
 
 A simple, yet stylish, javascript color picker.
+
+#### This project is a fork of "colorpicker" released 23.05.2009 by Stefan Petre which can be found here: http://www.eyecon.ro/colorpicker.
 
 
 ## Features
@@ -11,14 +11,14 @@ A simple, yet stylish, javascript color picker.
 __TODO__
 
 
-## What's Different from the Original Project?
-
-[See wiki](https://github.com/bsara/pickacolor.js/wiki/What's-Different%3F)
-
-
 ## Usage & Help
 
 [See wiki](https://github.com/bsara/pickacolor.js/wiki)
+
+
+## What's Different from the Original Project?
+
+[See wiki page](https://github.com/bsara/pickacolor.js/wiki/What's-Different%3F)
 
 
 ## Want to Contribute?
