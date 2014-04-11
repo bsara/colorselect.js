@@ -11,9 +11,17 @@ A simple, yet stylish, javascript color picker.
 __TODO__
 
 
-## Usage & Help
+## Documentation & Usage
 
-[See wiki](https://github.com/bsara/pickacolor.js/wiki)
+- [Docs](https://github.com/bsara/pickacolor.js/wiki/Docs)
+  - [Install](https://github.com/bsara/pickacolor.js/Docs#install)
+  - [Usage](https://github.com/bsara/pickacolor.js/Docs#usage)
+  - [Attributes](https://github.com/bsara/pickacolor.js/Docs#attributes)
+  - [Events](https://github.com/bsara/pickacolor.js/Docs#events)
+- [Demos](https://github.com/bsara/pickacolor.js/Demos)
+- [Development](https://github.com/bsara/pickacolor.js/Development)
+  - [Setup](https://github.com/bsara/pickacolor.js/Development#setup)
+  - [Build](https://github.com/bsara/pickacolor.js/Development#build)
 
 
 ## What's Different from the Original Project?
