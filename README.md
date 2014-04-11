@@ -14,14 +14,13 @@ A simple, yet stylish, javascript color picker.
 ## Documentation & Usage
 
 - [Docs](https://github.com/bsara/pickacolor.js/wiki/Docs)
-  - [Install](https://github.com/bsara/pickacolor.js/Docs#install)
-  - [Usage](https://github.com/bsara/pickacolor.js/Docs#usage)
-  - [Attributes](https://github.com/bsara/pickacolor.js/Docs#attributes)
-  - [Events](https://github.com/bsara/pickacolor.js/Docs#events)
-- [Demos](https://github.com/bsara/pickacolor.js/Demos)
-- [Development](https://github.com/bsara/pickacolor.js/Development)
-  - [Setup](https://github.com/bsara/pickacolor.js/Development#setup)
-  - [Build](https://github.com/bsara/pickacolor.js/Development#build)
+  - [Usage](https://github.com/bsara/pickacolor.js/wiki/Docs#usage)
+  - [Attributes](https://github.com/bsara/pickacolor.js/wiki/Docs#attributes)
+  - [Events](https://github.com/bsara/pickacolor.js/wiki/Docs#events)
+- [Demos](https://github.com/bsara/pickacolor.js/wiki/Demos)
+- [Development](https://github.com/bsara/pickacolor.js/wiki/Development)
+  - [Setup](https://github.com/bsara/pickacolor.js/wiki/Development#setup)
+  - [Build](https://github.com/bsara/pickacolor.js/wiki/Development#build)
 
 
 ## What's Different from the Original Project?
