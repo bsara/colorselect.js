@@ -6,9 +6,14 @@ PickAColor.js
 A simple, yet stylish, javascript color picker.
 
 
-## What's Different from the Original Project?
+## Features
 
 __TODO__
+
+
+## What's Different from the Original Project?
+
+[See wiki](https://github.com/bsara/pickacolor.js/wiki/What's-Different%3F)
 
 
 ## Usage & Help
