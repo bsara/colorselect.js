@@ -13,21 +13,17 @@
     "colorpicker"
   ],
   "main": [
-    "dist/pickacolor.min.js"
+    "dist/pickacolor.min.js",
+    "dist/styles/pickacolor.min.css",
+    "dist/images/*"
   ],
-  "license": "MIT, GPL-3.0",
+  "license": [
+    "MIT",
+    "GPL-3.0"
+  ],
   "ignore": [
-    "**/.*",
-    "build",
-    "components",
-    "src",
-    "node_modules",
-    "test",
-    "gulpfile.coffee",
-    "package.json",
-    "CONTRIBUTING.md",
-    "README.md",
-    "LICENSES"
+    "**/*",
+    "!dist/**/*"
   ],
   "dependencies": {
     "jquery": "~2.0.0"
