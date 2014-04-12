@@ -1,0 +1,21 @@
+{
+  "curly":    true,
+  "eqeqeq":   true,
+  "immed":    false,
+  "indent":   2,
+  "latedef":  true,
+  "newcap":   true,
+  "noarg":    true,
+  "strict":   false,
+  "trailing": true,
+  "undef":    false,
+  "unused":   false,
+
+  "boss":     true,
+  "eqnull":   true,
+  "laxbreak": true,
+  "maxerr":   1000,
+  "sub":      true,
+
+  "jquery":   true
+}

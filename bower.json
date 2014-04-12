@@ -1,11 +1,11 @@
 {
   "name": "PickAColor.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/bsara/pickacolor.js",
   "authors": [
     "Brandon Sara <bsara.dev@gmail.com>"
   ],
-  "description": "A simple javascript component to select a color the same way you select a color in Adobe Photoshop.",
+  "description": "A simple, yet stylish, javascript color picker.",
   "keywords": [
     "pickacolor",
     "color",

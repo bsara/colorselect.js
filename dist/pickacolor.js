@@ -17,18 +17,18 @@
     var charMin = 65;
     var visible;
     var htmlString = '<div class="' + pickerCSSClass + '">'
-                     + '<div class="' + pickerCSSClass + '-color"><div><div></div></div></div>'
-                     + '<div class="' + pickerCSSClass + '-hue"><div></div></div>'
-                     + '<div class="' + pickerCSSClass + '-new-color"></div>'
-                     + '<div class="' + pickerCSSClass + '-current-color"></div>'
-                     + '<div class="' + pickerCSSClass + '-hex"><input type="text" maxlength="6" size="6" /></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-r ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-g ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-h ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-s ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-submit"></div>'
+                     + '<div class="' + pickerCSSClass + '_color"><div><div></div></div></div>'
+                     + '<div class="' + pickerCSSClass + '_hue"><div></div></div>'
+                     + '<div class="' + pickerCSSClass + '_new_color"></div>'
+                     + '<div class="' + pickerCSSClass + '_current_color"></div>'
+                     + '<div class="' + pickerCSSClass + '_hex"><input type="text" maxlength="6" size="6" /></div>'
+                     + '<div class="' + pickerCSSClass + '_rgb_r ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_rgb_g ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_rgb_b ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_hsb_h ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_hsb_s ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_hsb_b ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '_submit"></div>'
                    + '</div>';
     var defaults = {
       eventName: "click",
