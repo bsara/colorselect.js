@@ -23,7 +23,8 @@
   ],
   "ignore": [
     "**/*",
-    "!dist/**/*"
+    "!dist/",
+    "!LICENSES"
   ],
   "dependencies": {
     "jquery": "~2.0.0"
