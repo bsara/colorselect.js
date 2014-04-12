@@ -95,9 +95,9 @@
     var change = function (ev) {
       var cal = $(this).parent().parent();
       var color;
-      if (this.parentNode.className.indexOf("_hex") > 0) {
+      if (this.parentNode.className.indexOf("-hex") > 0) {
         cal.data(pickerCSSClass).color = color = hexToHSB(fixHex(this.value));
-      } else if (this.parentNode.className.indexOf("_hsb") > 0) {
+      } else if (this.parentNode.className.indexOf("-hsb") > 0) {
         cal.data(pickerCSSClass).color = color = fixHSB({
           h: parseInt(cal.data(pickerCSSClass).fields.eq(4).val(), 10),
           s: parseInt(cal.data(pickerCSSClass).fields.eq(5).val(), 10),
@@ -125,20 +125,20 @@
 
     var blur = function (ev) {
       var cal = $(this).parent().parent();
-      cal.data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "_focus");
+      cal.data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "-focus");
     };
 
     var focus = function () {
-      charMin = this.parentNode.className.indexOf("_hex") > 0 ? 70 : 65;
-      $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "_focus");
-      $(this).parent().addClass(pickerCSSClass + "_focus");
+      charMin = this.parentNode.className.indexOf("-hex") > 0 ? 70 : 65;
+      $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "-focus");
+      $(this).parent().addClass(pickerCSSClass + "-focus");
     };
 
     var downIncrement = function (ev) {
       var field = $(this).parent().find("input").focus();
       var current = {
-        el: $(this).parent().addClass(pickerCSSClass + "_slider"),
-        max: this.parentNode.className.indexOf("_hsb_h") > 0 ? 360 : (this.parentNode.className.indexOf("_hsb") > 0 ? 100 : 255),
+        el: $(this).parent().addClass(pickerCSSClass + "-slider"),
+        max: this.parentNode.className.indexOf("-hsb-h") > 0 ? 360 : (this.parentNode.className.indexOf("-hsb") > 0 ? 100 : 255),
         y: ev.pageY,
         field: field,
         val: parseInt(field.val(), 10),
@@ -156,7 +156,7 @@
     };
     var upIncrement = function (ev) {
       change.apply(ev.data.field.get(0), [true]);
-      ev.data.el.removeClass(pickerCSSClass + "_slider").find("input").focus();
+      ev.data.el.removeClass(pickerCSSClass + "-slider").find("input").focus();
       $(document).unbind("mouseup", upIncrement);
       $(document).unbind("mousemove", moveIncrement);
       return false;
@@ -218,10 +218,10 @@
     };
 
     var enterSubmit = function (ev) {
-      $(this).addClass(pickerCSSClass + "_focus");
+      $(this).addClass(pickerCSSClass + "-focus");
     };
     var leaveSubmit = function (ev) {
-      $(this).removeClass(pickerCSSClass + "_focus");
+      $(this).removeClass(pickerCSSClass + "-focus");
     };
     var clickSubmit = function (ev) {
       var cal = $(this).parent();
@@ -549,19 +549,19 @@
                                 .bind("focus",  focus);
 
             cal.find("span").bind("mousedown", downIncrement).end()
-               .find(">div." + pickerCSSClass + "_current_color").bind("click", restoreOriginal);
-            options.selector = cal.find("div." + pickerCSSClass + "_color").bind("mousedown", downSelector);
+               .find(">div." + pickerCSSClass + "-current-color").bind("click", restoreOriginal);
+            options.selector = cal.find("div." + pickerCSSClass + "-color").bind("mousedown", downSelector);
             options.selectorIndic = options.selector.find("div div");
             options.el = this;
-            options.hue = cal.find("div." + pickerCSSClass + "_hue div");
+            options.hue = cal.find("div." + pickerCSSClass + "-hue div");
 
-            cal.find("div." + pickerCSSClass + "_hue").bind("mousedown", downHue);
-            options.newColor = cal.find("div." + pickerCSSClass + "_new_color");
-            options.currentColor = cal.find("div." + pickerCSSClass + "_current_color");
+            cal.find("div." + pickerCSSClass + "-hue").bind("mousedown", downHue);
+            options.newColor = cal.find("div." + pickerCSSClass + "-new-color");
+            options.currentColor = cal.find("div." + pickerCSSClass + "-current-color");
 
             cal.data(pickerCSSClass, options);
 
-            cal.find("div." + pickerCSSClass + "_submit")
+            cal.find("div." + pickerCSSClass + "-submit")
               .bind("mouseenter", enterSubmit)
               .bind("mouseleave", leaveSubmit)
               .bind("click", clickSubmit);
