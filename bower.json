@@ -23,8 +23,10 @@
   ],
   "ignore": [
     "**/*",
+    "!bower.json",
     "!dist/**/*",
-    "!LICENSES"
+    "!LICENSES",
+    "!README.md"
   ],
   "dependencies": {
     "jquery": "~2.0.0"
