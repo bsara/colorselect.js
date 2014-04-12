@@ -1,9 +1,13 @@
-/**
- * pickacolor.js
- * Author: Brandon Sara (bsara)
- * Original Author of "Color Picker": Stefan Petre www.eyecon.ro
+/*!
+ * pickacolor.js - v0.0.1 - https://github.com/bsara/pickacolor.js
  *
- * Dual licensed under the MIT and GPL-3.0 licenses
+ * Authors:
+ *   Brandon Sara AKA bsara (Owner)
+ *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
+ *
+ * License:
+ *   Copyright (c) 2014 Brandon Dale Sara
+ *   Dual licensed under the MIT and GPL-3.0 licenses (https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
  */
 
 (function ($) {

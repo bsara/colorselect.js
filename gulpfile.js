@@ -58,7 +58,7 @@ gulp.task("scripts", [ "clean-scripts", "lint-scripts" ], function () {
              .pipe(concat(PROJECT_NAME + ".js"))
              .pipe(gulp.dest(SCRIPTS_DIST_DIR))
              .pipe(rename(PROJECT_NAME + ".min.js"))
-             .pipe(uglify({ mangle: false }))
+             .pipe(uglify({ mangle: false, preserveComments: "some" }))
              .pipe(gulp.dest(SCRIPTS_DIST_DIR));
 });
 
@@ -80,7 +80,7 @@ gulp.task("styles", [ "clean-styles" ], function () {
              .pipe(concat(PROJECT_NAME + ".css"))
              .pipe(gulp.dest(STYLES_DIST_DIR))
              .pipe(rename(PROJECT_NAME + ".min.css"))
-             .pipe(minifyCSS())
+             .pipe(minifyCSS({ keepSpecialComments: "*" }))
              .pipe(gulp.dest(STYLES_DIST_DIR));
 });
 

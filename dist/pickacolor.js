@@ -1,9 +1,13 @@
-/**
- * pickacolor.js
- * Author: Brandon Sara (bsara)
- * Original Author of "Color Picker": Stefan Petre www.eyecon.ro
+/*!
+ * pickacolor.js - v0.0.1 - https://github.com/bsara/pickacolor.js
  *
- * Dual licensed under the MIT and GPL-3.0 licenses
+ * Authors:
+ *   Brandon Sara AKA bsara (Owner)
+ *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
+ *
+ * License:
+ *   Copyright (c) 2014 Brandon Dale Sara
+ *   Dual licensed under the MIT and GPL-3.0 licenses (https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
  */
 
 (function ($) {
@@ -17,18 +21,18 @@
     var charMin = 65;
     var visible;
     var htmlString = '<div class="' + pickerCSSClass + '">'
-                     + '<div class="' + pickerCSSClass + '_color"><div><div></div></div></div>'
-                     + '<div class="' + pickerCSSClass + '_hue"><div></div></div>'
-                     + '<div class="' + pickerCSSClass + '_new_color"></div>'
-                     + '<div class="' + pickerCSSClass + '_current_color"></div>'
-                     + '<div class="' + pickerCSSClass + '_hex"><input type="text" maxlength="6" size="6" /></div>'
-                     + '<div class="' + pickerCSSClass + '_rgb_r ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_rgb_g ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_rgb_b ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_hsb_h ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_hsb_s ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_hsb_b ' + pickerCSSClass + '_field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '_submit"></div>'
+                     + '<div class="' + pickerCSSClass + '-color"><div><div></div></div></div>'
+                     + '<div class="' + pickerCSSClass + '-hue"><div></div></div>'
+                     + '<div class="' + pickerCSSClass + '-new-color"></div>'
+                     + '<div class="' + pickerCSSClass + '-current-color"></div>'
+                     + '<div class="' + pickerCSSClass + '-hex"><input type="text" maxlength="6" size="6" /></div>'
+                     + '<div class="' + pickerCSSClass + '-rgb-r ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-rgb-g ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-rgb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-hsb-h ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-hsb-s ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
+                     + '<div class="' + pickerCSSClass + '-submit"></div>'
                    + '</div>';
     var defaults = {
       eventName: "click",
