@@ -34,18 +34,21 @@
                      + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
                      + '<div class="' + pickerCSSClass + '-submit"></div>'
                    + '</div>';
+
     var defaults = {
-      eventName: "click",
-      onShow: function () {},
-      onBeforeShow: function(){},
-      onHide: function () {},
-      onChange: function () {},
-      onSubmit: function () {},
-      color: "ff0000",
-      livePreview: true,
-      flat: false,
-      position: "bottom"
+      allCaps:        true,
+      defaultColor:   "ff0000",
+      livePreview:    true,
+      onBeforeShow:   function(){},
+      onChange:       function () {},
+      onHide:         function () {},
+      onShow:         function () {},
+      onSubmit:       function () {},
+      pickerPosition: "bottom-left",
+      popup:          true,
+      popupEvent:     "click"
     };
+
 
     var fillRGBFields = function (hsb, picker) {
       var rgb = hsbToRGB(hsb);
@@ -54,15 +57,20 @@
                                  .eq(2).val(rgb.g).end()
                                  .eq(3).val(rgb.b).end();
     };
+
     var fillHSBFields = function (hsb, picker) {
       $(picker).data(pickerCSSClass).fields
                                  .eq(4).val(hsb.h).end()
                                  .eq(5).val(hsb.s).end()
                                  .eq(6).val(hsb.b).end();
     };
+
     var fillHexFields = function (hsb, picker) {
-      $(picker).data(pickerCSSClass).fields.eq(0).val(hsbToHex(hsb)).end();
+      var hex = hsbToHex(hsb);
+      // TODO: Apply `allCaps` functionality
+      $(picker).data(pickerCSSClass).fields.eq(0).val(hex).end();
     };
+
 
     var setSelector = function (hsb, picker) {
       $(picker).data(pickerCSSClass).selector.css("backgroundColor", "#" + hsbToHex({h: hsb.h, s: 100, b: 100}));
@@ -71,15 +79,19 @@
         top:  parseInt(150 * (100-hsb.b)/100, 10)
       });
     };
+
     var setHue = function (hsb, picker) {
       $(picker).data(pickerCSSClass).hue.css("top", parseInt(150 - 150 * hsb.h/360, 10));
     };
+
     var setCurrentColor = function (hsb, picker) {
       $(picker).data(pickerCSSClass).currentColor.css("backgroundColor", "#" + hsbToHex(hsb));
     };
+
     var setNewColor = function (hsb, picker) {
       $(picker).data(pickerCSSClass).newColor.css("backgroundColor", "#" + hsbToHex(hsb));
     };
+
 
     var keyup = function (ev) {
       var pressedKey = ev.charCode || ev.keyCode || -1;
@@ -136,6 +148,7 @@
       $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "-focus");
       $(this).parent().addClass(pickerCSSClass + "-focus");
     };
+
 
     var downIncrement = function (ev) {
       var field = $(this).parent().find("input").focus();
@@ -312,6 +325,8 @@
         bottom: viewPort.t + viewPort.h,
         right:  viewPort.l + viewPort.w
       };
+
+      // BUG: Repositioning issues with new positioning options
 
       if (pickerPosition.top < windowBoundaries.top) {
         pickerPosition.top = 0;
@@ -533,12 +548,12 @@
       init: function (opt) {
         opt = $.extend({}, defaults, opt||{});
 
-        if (typeof opt.color === "string") {
-          opt.color = hexToHSB(opt.color);
-        } else if (opt.color.r !== undefined && opt.color.g !== undefined && opt.color.b !== undefined) {
-          opt.color = rgbToHSB(opt.color);
-        } else if (opt.color.h !== undefined && opt.color.s !== undefined && opt.color.b !== undefined) {
-          opt.color = fixHSB(opt.color);
+        if (typeof opt.defaultColor === "string") {
+          opt.defaultColor = hexToHSB(opt.defaultColor);
+        } else if (opt.defaultColor.r !== undefined && opt.defaultColor.g !== undefined && opt.defaultColor.b !== undefined) {
+          opt.defaultColor = rgbToHSB(opt.defaultColor);
+        } else if (opt.defaultColor.h !== undefined && opt.defaultColor.s !== undefined && opt.defaultColor.b !== undefined) {
+          opt.defaultColor = fixHSB(opt.defaultColor);
         } else {
           return this;
         }
@@ -546,16 +561,16 @@
         return this.each(function () {
           if (!$(this).data("pickacolorId")) {
             var options = $.extend({}, opt);
-            options.origColor = opt.color;
+            options.origColor = opt.defaultColor;
 
             var id = pickerCSSClass + parseInt(Math.random() * 1000);
             $(this).data("pickacolorId", id);
 
             var pickers = $(htmlString).attr("id", id);
-            if (options.flat) {
-              pickers.appendTo(this).show();
-            } else {
+            if (options.popup) {
               pickers.appendTo(document.body);
+            } else {
+              pickers.appendTo(this).show();
             }
 
             options.fields = pickers.find("input")
@@ -584,16 +599,16 @@
 
             var picker = pickers.get(0);
 
-            fillRGBFields(options.color, picker);
-            fillHSBFields(options.color, picker);
-            fillHexFields(options.color, picker);
+            fillRGBFields(options.defaultColor, picker);
+            fillHSBFields(options.defaultColor, picker);
+            fillHexFields(options.defaultColor, picker);
 
-            setHue(options.color, picker);
-            setSelector(options.color, picker);
-            setCurrentColor(options.color, picker);
-            setNewColor(options.color, picker);
+            setHue(options.defaultColor, picker);
+            setSelector(options.defaultColor, picker);
+            setCurrentColor(options.defaultColor, picker);
+            setNewColor(options.defaultColor, picker);
 
-            if (options.flat) {
+            if (!options.popup) {
               pickers.css({
                 position: "relative",
                 display:  "block"
@@ -601,7 +616,7 @@
               return;
             }
 
-            $(this).bind(options.eventName, { pickerPosition: options.position }, show);
+            $(this).bind(options.popupEvent, { pickerPosition: options.pickerPosition }, show);
           }
         });
       },
