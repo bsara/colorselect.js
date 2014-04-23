@@ -1,6 +1,6 @@
 {
   "name": "PickAColor.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/bsara/pickacolor.js",
   "authors": [
     "Brandon Sara <bsara.dev@gmail.com>"
@@ -10,7 +10,8 @@
     "pickacolor",
     "color",
     "picker",
-    "colorpicker"
+    "colorpicker",
+    "color picker"
   ],
   "main": [
     "dist/pickacolor.min.js",
