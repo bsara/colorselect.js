@@ -2,7 +2,7 @@
  * pickacolor.js - v0.0.1 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
- *   Brandon Sara AKA bsara (Owner)
+ *   Brandon Sara <bsara> (Owner)
  *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
  *
  * License:
@@ -12,7 +12,7 @@
 
 (function ($) {
   var PickAColor = function () {
-    var pickerCSSClass = "pickacolor";
+    var pickerCSSClass = 'pickacolor';
     var pickerHeight   = 176;
     var pickerWidth    = 356;
 
@@ -38,7 +38,7 @@
 
     var defaults = {
       allCaps:        true,
-      defaultColor:   "ff0000",
+      defaultColor:   'FF0000',
       livePreview:    true,
       onBeforeCancel: function () {},
       onBeforeShow:   function () {},
@@ -47,9 +47,9 @@
       onHide:         function () {},
       onShow:         function () {},
       onSubmit:       function () {},
-      pickerPosition: "bottom-left",
+      pickerPosition: 'bottom-left',
       popup:          true,
-      popupEvent:     "click"
+      popupEvent:     'click'
     };
 
 
@@ -87,30 +87,30 @@
     var setSelector = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
 
-      picker.selector.css("backgroundColor", "#" + hsbToHex({h: hsb.h, s: 100, b: 100}));
+      picker.selector.css('backgroundColor', "#" + hsbToHex({h: hsb.h, s: 100, b: 100}));
       picker.selectorIndic.css({
-        left: parseInt(150 * hsb.s/100, 10),
-        top:  parseInt(150 * (100-hsb.b)/100, 10)
+        left: parseInt(150 * hsb.s / 100, 10),
+        top:  parseInt(150 * (100 - hsb.b) / 100, 10)
       });
     };
 
     var setHue = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      picker.hue.css("top", parseInt(150 - 150 * hsb.h/360, 10));
+      picker.hue.css('top', parseInt(150 - 150 * hsb.h / 360, 10));
     };
 
     var setCurrentColor = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      picker.currentColor.css("backgroundColor", "#" + hsbToHex(hsb));
+      picker.currentColor.css('backgroundColor', "#" + hsbToHex(hsb));
     };
 
     var setNewColor = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      picker.newColor.css("backgroundColor", "#" + hsbToHex(hsb));
+      picker.newColor.css('backgroundColor', "#" + hsbToHex(hsb));
     };
 
     var setColor = function (color) {
-      if (typeof color === "string") {
+      if (typeof color === 'string') {
         color = hexToHSB(color);
       } else if (color.r !== undefined && color.g !== undefined && color.b !== undefined) {
         color = rgbToHSB(color);
@@ -120,8 +120,8 @@
         return this;
       }
       return this.each(function(){
-        if ($(this).data("pickacolorId")) {
-          var pickerElements = $("#" + $(this).data("pickacolorId"));
+        if ($(this).data('pickacolorId')) {
+          var pickerElements = $("#" + $(this).data('pickacolorId'));
           var pickerElement = pickerElements.get(0);
           var picker = pickerElements.data(pickerCSSClass);
 
@@ -168,9 +168,9 @@
 
       var color;
 
-      if (this.parentNode.className.indexOf("-hex") > 0) {
+      if (this.parentNode.className.indexOf('-hex') > 0) {
         picker.color = color = hexToHSB(fixHex(this.value));
-      } else if (this.parentNode.className.indexOf("-hsb") > 0) {
+      } else if (this.parentNode.className.indexOf('-hsb') > 0) {
         picker.color = color = fixHSB({
           h: parseInt(picker.fields.eq(4).val(), 10),
           s: parseInt(picker.fields.eq(5).val(), 10),
@@ -199,31 +199,31 @@
 
     var blur = function (ev) {
       var picker = $(this).parent().parent();
-      picker.data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "-focus");
+      picker.data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + '-focus');
     };
 
     var focus = function () {
-      charMin = this.parentNode.className.indexOf("-hex") > 0 ? 70 : 65;
+      charMin = (this.parentNode.className.indexOf('-hex') > 0) ? 70 : 65;
 
-      $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + "-focus");
-      $(this).parent().addClass(pickerCSSClass + "-focus");
+      $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + '-focus');
+      $(this).parent().addClass(pickerCSSClass + '-focus');
     };
 
 
     var downIncrement = function (ev) {
-      var inputField = $(this).parent().find("input").focus();
+      var inputField = $(this).parent().find('input').focus();
 
       var current = {
-        el:         $(this).parent().addClass(pickerCSSClass + "-slider"),
-        max:        this.parentNode.className.indexOf("-hsb-h") > 0 ? 360 : (this.parentNode.className.indexOf("-hsb") > 0 ? 100 : 255),
+        el:         $(this).parent().addClass(pickerCSSClass + '-slider'),
+        max:        (this.parentNode.className.indexOf('-hsb-h') > 0) ? 360 : (this.parentNode.className.indexOf('-hsb') > 0 ? 100 : 255),
         y:          ev.pageY,
         inputField: inputField,
         val:        parseInt(inputField.val(), 10),
         preview:    $(this).parent().parent().data(pickerCSSClass).livePreview
       };
 
-      $(document).on("mouseup", current, upIncrement);
-      $(document).on("mousemove", current, moveIncrement);
+      $(document).on('mouseup', current, upIncrement);
+      $(document).on('mousemove', current, moveIncrement);
     };
 
     var moveIncrement = function (ev) {
@@ -237,10 +237,10 @@
     var upIncrement = function (ev) {
       change.apply(ev.data.inputField.get(0), [true]);
 
-      ev.data.el.removeClass(pickerCSSClass + "-slider").find("input").focus();
+      ev.data.el.removeClass(pickerCSSClass + '-slider').find('input').focus();
 
-      $(document).off("mouseup", upIncrement);
-      $(document).off("mousemove", moveIncrement);
+      $(document).off('mouseup', upIncrement);
+      $(document).off('mousemove', moveIncrement);
 
       return false;
     };
@@ -254,8 +254,8 @@
 
       current.preview = current.pickerElements.data(pickerCSSClass).livePreview;
 
-      $(document).on("mouseup", current, upHue);
-      $(document).on("mousemove", current, moveHue);
+      $(document).on('mouseup', current, upHue);
+      $(document).on('mousemove', current, moveHue);
     };
 
     var moveHue = function (ev) {
@@ -264,7 +264,7 @@
       change.apply(
         picker.fields
               .eq(4)
-              .val(parseInt(360*(150 - Math.max(0,Math.min(150,(ev.pageY - ev.data.y))))/150, 10))
+              .val(parseInt(360 * (150 - Math.max(0, Math.min(150, (ev.pageY - ev.data.y)))) / 150, 10))
               .get(0),
         [ev.data.preview]
       );
@@ -279,8 +279,8 @@
       fillRGBFields(picker.color, pickerElement);
       fillHexFields(picker.color, pickerElement);
 
-      $(document).off("mouseup", upHue);
-      $(document).off("mousemove", moveHue);
+      $(document).off('mouseup', upHue);
+      $(document).off('mousemove', moveHue);
 
       return false;
     };
@@ -294,8 +294,8 @@
 
       current.preview = current.pickerElements.data(pickerCSSClass).livePreview;
 
-      $(document).on("mouseup", current, upSelector);
-      $(document).on("mousemove", current, moveSelector);
+      $(document).on('mouseup', current, upSelector);
+      $(document).on('mousemove', current, moveSelector);
     };
 
     var moveSelector = function (ev) {
@@ -317,19 +317,19 @@
       fillRGBFields(picker.color, pickerElement);
       fillHexFields(picker.color, pickerElement);
 
-      $(document).off("mouseup", upSelector);
-      $(document).off("mousemove", moveSelector);
+      $(document).off('mouseup', upSelector);
+      $(document).off('mousemove', moveSelector);
 
       return false;
     };
 
 
     var giveFocus = function (ev) {
-      $(this).addClass(pickerCSSClass + "-focus");
+      $(this).addClass(pickerCSSClass + '-focus');
     };
 
     var loseFocus = function (ev) {
-      $(this).removeClass(pickerCSSClass + "-focus");
+      $(this).removeClass(pickerCSSClass + '-focus');
     };
 
 
@@ -344,7 +344,7 @@
 
 
     var show = function (ev) {
-      var pickerElements = $("#" + $(this).data("pickacolorId"));
+      var pickerElements = $("#" + $(this).data('pickacolorId'));
       var pickerElement = pickerElements.get(0);
       var picker = pickerElements.data(pickerCSSClass);
 
@@ -357,43 +357,43 @@
       var pickerPosition = {};
 
       switch (ev.data.pickerPosition) {
-        case "top-left":
+        case 'top-left':
           pickerPosition.top  = inputPosition.top - pickerHeight;
           pickerPosition.left = inputPosition.left;
           break;
-        case "top-right":
+        case 'top-right':
           pickerPosition.top  = inputPosition.top - pickerHeight;
           pickerPosition.left = inputPosition.right - pickerWidth;
           break;
-        case "bottom-left":
+        case 'bottom-left':
           pickerPosition.top  = inputPosition.bottom;
           pickerPosition.left = inputPosition.left;
           break;
-        case "bottom-right":
+        case 'bottom-right':
           pickerPosition.top  = inputPosition.bottom;
           pickerPosition.left = inputPosition.right - pickerWidth;
           break;
-        case "left":
+        case 'left':
           pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
           pickerPosition.left = inputPosition.left - pickerWidth;
           break;
-        case "left-top":
+        case 'left-top':
           pickerPosition.top  = inputPosition.top;
           pickerPosition.left = inputPosition.left - pickerWidth;
           break;
-        case "left-bottom":
+        case 'left-bottom':
           pickerPosition.top  = inputPosition.bottom - pickerHeight;
           pickerPosition.left = inputPosition.left - pickerWidth;
           break;
-        case "right":
+        case 'right':
           pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
           pickerPosition.left = inputPosition.right;
           break;
-        case "right-top":
+        case 'right-top':
           pickerPosition.top  = inputPosition.top;
           pickerPosition.left = inputPosition.right;
           break;
-        case "right-bottom":
+        case 'right-bottom':
           pickerPosition.top  = inputPosition.bottom - pickerHeight;
           pickerPosition.left = inputPosition.right;
           break;
@@ -430,7 +430,7 @@
       if (picker.onShow.apply(this, [pickerElement]) !== false) {
         pickerElements.show();
       }
-      $(document).bind("mousedown", { pickerElements: pickerElements }, hide);
+      $(document).bind('mousedown', { pickerElements: pickerElements }, hide);
 
       return false;
     };
@@ -444,7 +444,7 @@
         if (picker.onHide.apply(this, [pickerElement]) !== false) {
           pickerElements.hide();
         }
-        $(document).unbind("mousedown", hide);
+        $(document).unbind('mousedown', hide);
       }
     };
 
@@ -493,7 +493,7 @@
 
 
     var getViewport = function () {
-      var m = document.compatMode === "CSS1Compat";
+      var m = document.compatMode === 'CSS1Compat';
       return {
         l : window.pageXOffset || (m ? document.documentElement.scrollLeft : document.body.scrollLeft),
         t : window.pageYOffset || (m ? document.documentElement.scrollTop : document.body.scrollTop),
@@ -535,7 +535,10 @@
 
     var hexToRGB = function (hex) {
       var hexInt = parseInt(((hex.indexOf("#") > -1) ? hex.substring(1) : hex), 16);
-      return {r: hexInt >> 16, g: (hexInt & 0x00FF00) >> 8, b: (hexInt & 0x0000FF)};
+      return {
+        r: hexInt >> 16,
+        g: (hexInt & 0x00FF00) >> 8,
+        b: (hexInt & 0x0000FF)};
     };
 
     var hexToHSB = function (hex) {
@@ -552,10 +555,7 @@
       var max = Math.max(rgb.r, rgb.g, rgb.b);
       var delta = max - min;
       hsb.b = max;
-      if (max !== 0) {
-        // TODO: Figure out why this is blank!
-      }
-      hsb.s = max !== 0 ? 255 * delta / max : 0;
+      hsb.s = ((max !== 0) ? 255 * delta / max : 0);
       if (hsb.s !== 0) {
         if (rgb.r === max) {
           hsb.h = (rgb.g - rgb.b) / delta;
@@ -571,8 +571,8 @@
       if (hsb.h < 0) {
         hsb.h += 360;
       }
-      hsb.s *= 100/255;
-      hsb.b *= 100/255;
+      hsb.s *= 100 / 255;
+      hsb.b *= 100 / 255;
       return hsb;
     };
 
@@ -580,8 +580,8 @@
       var rgb = {};
 
       var h = Math.round(hsb.h);
-      var s = Math.round(hsb.s*255/100);
-      var v = Math.round(hsb.b*255/100);
+      var s = Math.round(hsb.s * 255 / 100);
+      var v = Math.round(hsb.b * 255 / 100);
 
       if (s === 0) {
         rgb.r = v;
@@ -621,12 +621,17 @@
           rgb.g = t2;
           rgb.b = t1 - t3;
         } else {
-          rgb.r=0;
-          rgb.g=0;
-          rgb.b=0;
+          rgb.r = 0;
+          rgb.g = 0;
+          rgb.b = 0;
         }
       }
-      return { r:Math.round(rgb.r), g:Math.round(rgb.g), b:Math.round(rgb.b) };
+
+      return {
+        r:Math.round(rgb.r),
+        g:Math.round(rgb.g),
+        b:Math.round(rgb.b)
+      };
     };
 
     var rgbToHex = function (rgb) {
@@ -635,11 +640,13 @@
         rgb.g.toString(16),
         rgb.b.toString(16)
       ];
+
       $.each(hex, function (nr, val) {
         if (val.length === 1) {
           hex[nr] = "0" + val;
         }
       });
+
       return hex.join("");
     };
 
@@ -651,7 +658,7 @@
       init: function (opt) {
         opt = $.extend({}, defaults, opt||{});
 
-        if (typeof opt.defaultColor === "string") {
+        if (typeof opt.defaultColor === 'string') {
           opt.defaultColor = hexToHSB(opt.defaultColor);
         } else if (opt.defaultColor.r !== undefined && opt.defaultColor.g !== undefined && opt.defaultColor.b !== undefined) {
           opt.defaultColor = rgbToHSB(opt.defaultColor);
@@ -662,49 +669,49 @@
         }
 
         return this.each(function () {
-          if (!$(this).data("pickacolorId")) {
+          if (!$(this).data('pickacolorId')) {
             var options = $.extend({}, opt);
             options.origColor = opt.defaultColor;
 
             var id = pickerCSSClass + parseInt(Math.random() * 1000);
-            $(this).data("pickacolorId", id);
+            $(this).data('pickacolorId', id);
 
-            var pickerElements = $(htmlString).attr("id", id);
+            var pickerElements = $(htmlString).attr('id', id);
             if (options.popup) {
               pickerElements.appendTo(document.body);
             } else {
               pickerElements.appendTo(this).show();
             }
 
-            options.fields = pickerElements.find("input")
-                                           .bind("keyup",  keyup)
-                                           .bind("change", change)
-                                           .bind("blur",   blur)
-                                           .bind("focus",  focus);
+            options.fields = pickerElements.find('input')
+                                           .bind('keyup',  keyup)
+                                           .bind('change', change)
+                                           .bind('blur',   blur)
+                                           .bind('focus',  focus);
 
-            pickerElements.find("span").bind("mousedown", downIncrement).end()
-                          .find(">div." + pickerCSSClass + "-current-color").on("click", { inputElement: this }, resetColor);
+            pickerElements.find('span').bind('mousedown', downIncrement).end()
+                          .find('>div.' + pickerCSSClass + '-current-color').on('click', { inputElement: this }, resetColor);
 
-            options.selector = pickers.find("div." + pickerCSSClass + "-color").bind("mousedown", downSelector);
-            options.selectorIndic = options.selector.find("div div");
+            options.selector = pickers.find('div.' + pickerCSSClass + '-color').bind('mousedown', downSelector);
+            options.selectorIndic = options.selector.find('div div');
             options.el = this;
-            options.hue = pickers.find("div." + pickerCSSClass + "-hue div");
+            options.hue = pickers.find('div.' + pickerCSSClass + '-hue div');
 
-            pickerElements.find("div." + pickerCSSClass + "-hue").bind("mousedown", downHue);
-            options.newColor = pickers.find("div." + pickerCSSClass + "-new-color");
-            options.currentColor = pickers.find("div." + pickerCSSClass + "-current-color");
+            pickerElements.find('div.' + pickerCSSClass + '-hue').bind('mousedown', downHue);
+            options.newColor = pickers.find('div.' + pickerCSSClass + '-new-color');
+            options.currentColor = pickers.find('div.' + pickerCSSClass + '-current-color');
 
             pickerElements.data(pickerCSSClass, options);
 
-            pickerElements.find("div." + pickerCSSClass + "-cancel")
-                          .on("mouseenter", giveFocus)
-                          .on("mouseleave", loseFocus)
-                          .on("click", clickCancel);
+            pickerElements.find('div.' + pickerCSSClass + '-cancel')
+                          .on('mouseenter', giveFocus)
+                          .on('mouseleave', loseFocus)
+                          .on('click', clickCancel);
 
-            pickerElements.find("div." + pickerCSSClass + "-submit")
-                          .on("mouseenter", giveFocus)
-                          .on("mouseleave", loseFocus)
-                          .on("click", clickSubmit);
+            pickerElements.find('div.' + pickerCSSClass + '-submit')
+                          .on('mouseenter', giveFocus)
+                          .on('mouseleave', loseFocus)
+                          .on('click', clickSubmit);
 
             var pickerElement = pickers.get(0);
 
@@ -719,8 +726,8 @@
 
             if (!options.popup) {
               pickerElements.css({
-                position: "relative",
-                display:  "block"
+                position: 'relative',
+                display:  'block'
               });
               return;
             }
@@ -732,7 +739,7 @@
 
       showPicker: function() {
         return this.each( function () {
-          if ($(this).data("pickacolorId")) {
+          if ($(this).data('pickacolorId')) {
             show.apply(this);
           }
         });
@@ -740,8 +747,8 @@
 
       hidePicker: function() {
         return this.each( function () {
-          if ($(this).data("pickacolorId")) {
-            $("#" + $(this).data("pickacolorId")).hide();
+          if ($(this).data('pickacolorId')) {
+            $("#" + $(this).data('pickacolorId')).hide();
           }
         });
       },
