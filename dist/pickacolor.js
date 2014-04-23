@@ -40,13 +40,13 @@
       allCaps:        true,
       defaultColor:   'FF0000',
       livePreview:    true,
-      onBeforeCancel: function () {},
-      onBeforeShow:   function () {},
-      onCancel:       function () {},
-      onChange:       function () {},
-      onHide:         function () {},
-      onShow:         function () {},
-      onSubmit:       function () {},
+      onBeforeCancel: function (picker) { return true; },
+      onBeforeShow:   function (picker) { return true; },
+      onCancel:       function (hsb, hex, rgb, pickerElement) {},
+      onChange:       function (hsb, hex, rgb) {},
+      onHide:         function (pickerElement) {},
+      onShow:         function (pickerElement) {},
+      onSubmit:       function (hsb, hex, rgb, pickerElement) {},
       pickerPosition: 'bottom-left',
       popup:          true,
       popupEvent:     'click'
@@ -74,11 +74,7 @@
 
     var fillHexFields = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      var hex = hsbToHex(hsb);
-
-      if (picker.allCaps) {
-        hex = hex.toUpperCase();
-      }
+      var hex = hsbToHex(hsb, picker.allCaps);
 
       picker.fields.eq(0).val(hex).end();
     };
@@ -87,7 +83,7 @@
     var setSelector = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
 
-      picker.selector.css('backgroundColor', "#" + hsbToHex({h: hsb.h, s: 100, b: 100}));
+      picker.selector.css('backgroundColor', "#" + hsbToHex({h: hsb.h, s: 100, b: 100}), picker.allCaps);
       picker.selectorIndic.css({
         left: parseInt(150 * hsb.s / 100, 10),
         top:  parseInt(150 * (100 - hsb.b) / 100, 10)
@@ -101,15 +97,15 @@
 
     var setCurrentColor = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      picker.currentColor.css('backgroundColor', "#" + hsbToHex(hsb));
+      picker.currentColor.css('backgroundColor', "#" + hsbToHex(hsb, picker.allCaps));
     };
 
     var setNewColor = function (hsb, pickerElement) {
       var picker = $(pickerElement).data(pickerCSSClass);
-      picker.newColor.css('backgroundColor', "#" + hsbToHex(hsb));
+      picker.newColor.css('backgroundColor', "#" + hsbToHex(hsb, picker.allCaps));
     };
 
-    var setColor = function (color) {
+    var setColor = function (color, pickerElement) {
       if (typeof color === 'string') {
         color = hexToHSB(color);
       } else if (color.r !== undefined && color.g !== undefined && color.b !== undefined) {
@@ -137,7 +133,7 @@
           setCurrentColor(color, pickerElement);
           setNewColor(color, pickerElement);
 
-          picker.onChange.apply(pickerElements, [color, hsbToHex(color), hsbToRGB(color)]);
+          picker.onChange.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color) ]);
         }
       });
     };
@@ -194,7 +190,7 @@
       setHue(color, pickerElement);
       setNewColor(color, pickerElement);
 
-      picker.onChange.apply(pickerElements, [color, hsbToHex(color), hsbToRGB(color)]);
+      picker.onChange.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color) ]);
     };
 
     var blur = function (ev) {
@@ -334,12 +330,12 @@
 
 
     var clickCancel = function (ev) {
-      cancel(ev);
+      cancel.apply(this);
     };
 
 
     var clickSubmit = function (ev) {
-      submit(ev);
+      submit.apply($(this));
     };
 
 
@@ -348,7 +344,7 @@
       var pickerElement = pickerElements.get(0);
       var picker = pickerElements.data(pickerCSSClass);
 
-      picker.onBeforeShow.apply(this, [picker]);
+      picker.onBeforeShow.apply(this, [ picker ]);
 
       var inputPosition    = $(this).offset();
       inputPosition.bottom = inputPosition.top + this.offsetHeight;
@@ -427,10 +423,10 @@
 
       pickerElements.css({ left: pickerPosition.left + "px", top: pickerPosition.top + "px" });
 
-      if (picker.onShow.apply(this, [pickerElement]) !== false) {
+      if (picker.onShow.apply(this, [ pickerElement ]) !== false) {
         pickerElements.show();
       }
-      $(document).bind('mousedown', { pickerElements: pickerElements }, hide);
+      $(document).on('mousedown', { pickerElements: pickerElements }, hide);
 
       return false;
     };
@@ -441,33 +437,39 @@
       var picker = pickerElements.data(pickerCSSClass);
 
       if (!isChildOf(pickerElement, ev.target, pickerElement)) {
-        if (picker.onHide.apply(this, [pickerElement]) !== false) {
+        if (picker.onHide.apply(this, [ pickerElement ]) !== false) {
           pickerElements.hide();
         }
-        $(document).unbind('mousedown', hide);
+        $(document).off('mousedown', hide);
       }
     };
 
     var cancel = function (ev) {
-      var picker = $(this).parent().data(pickerCSSClass);
+      var pickerElements = $(this).parent();
+      var picker = pickerElements.data(pickerCSSClass);
 
-      if (picker.onBeforeCancel(picker.color, hsbToHex(picker.color), hsbToRGB(picker.color), picker.el)) {
-        setColor(picker.origColor);
-        hide();
+      var color = picker.color;
 
-        picker.onCancel();
+      if (picker.onBeforeCancel.apply(pickerElements, [ picker ])) {
+        setColor(picker.origColor, pickerElement);
+
+        picker.onCancel.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color), pickerElements.get(0) ]);
+
+        picker.hide.apply(pickerElements, [ { pickerElements: pickerElements } ]);
       }
     };
 
     var submit = function (ev) {
-      var pickers = $(this).parent();
-      var picker = pickers.data(pickerCSSClass);
+      var pickerElements = $(this).parent();
+      var pickerElement = pickerElements.get(0);
+      var picker = pickerElements.data(pickerCSSClass);
+
       var color = picker.color;
 
       picker.origColor = color;
-      setCurrentColor(color, pickers.get(0));
+      setCurrentColor(color, pickerElement);
 
-      picker.onSubmit(color, hsbToHex(color), hsbToRGB(color), picker.el);
+      picker.onSubmit.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color), pickerElement ]);
     };
 
 
@@ -576,6 +578,7 @@
       return hsb;
     };
 
+
     var hsbToRGB = function (hsb) {
       var rgb = {};
 
@@ -634,7 +637,8 @@
       };
     };
 
-    var rgbToHex = function (rgb) {
+
+    var rgbToHex = function (rgb, allCaps) {
       var hex = [
         rgb.r.toString(16),
         rgb.g.toString(16),
@@ -647,12 +651,18 @@
         }
       });
 
-      return hex.join("");
+      hexString = hex.join("");
+      if (allCaps) {
+        hexString = hexString.toUpperCase();
+      }
+
+      return hexString;
     };
 
-    var hsbToHex = function (hsb) {
-      return rgbToHex(hsbToRGB(hsb));
+    var hsbToHex = function (hsb, allCaps) {
+      return rgbToHex(hsbToRGB(hsb), allCaps);
     };
+
 
     return {
       init: function (opt) {
@@ -684,22 +694,22 @@
             }
 
             options.fields = pickerElements.find('input')
-                                           .bind('keyup',  keyup)
-                                           .bind('change', change)
-                                           .bind('blur',   blur)
-                                           .bind('focus',  focus);
+                                           .on('keyup',  keyup)
+                                           .on('change', change)
+                                           .on('blur',   blur)
+                                           .on('focus',  focus);
 
-            pickerElements.find('span').bind('mousedown', downIncrement).end()
-                          .find('>div.' + pickerCSSClass + '-current-color').on('click', { inputElement: this }, resetColor);
+            pickerElements.find('span').on('mousedown', downIncrement).end()
+                          .find('>div.' + pickerCSSClass + '-current-color').on('click', resetColor);
 
-            options.selector = pickers.find('div.' + pickerCSSClass + '-color').bind('mousedown', downSelector);
+            options.selector = pickerElements.find('div.' + pickerCSSClass + '-color').on('mousedown', downSelector);
             options.selectorIndic = options.selector.find('div div');
             options.el = this;
-            options.hue = pickers.find('div.' + pickerCSSClass + '-hue div');
+            options.hue = pickerElements.find('div.' + pickerCSSClass + '-hue div');
 
-            pickerElements.find('div.' + pickerCSSClass + '-hue').bind('mousedown', downHue);
-            options.newColor = pickers.find('div.' + pickerCSSClass + '-new-color');
-            options.currentColor = pickers.find('div.' + pickerCSSClass + '-current-color');
+            pickerElements.find('div.' + pickerCSSClass + '-hue').on('mousedown', downHue);
+            options.newColor = pickerElements.find('div.' + pickerCSSClass + '-new-color');
+            options.currentColor = pickerElements.find('div.' + pickerCSSClass + '-current-color');
 
             pickerElements.data(pickerCSSClass, options);
 
@@ -713,7 +723,7 @@
                           .on('mouseleave', loseFocus)
                           .on('click', clickSubmit);
 
-            var pickerElement = pickers.get(0);
+            var pickerElement = pickerElements.get(0);
 
             fillRGBFields(options.defaultColor, pickerElement);
             fillHSBFields(options.defaultColor, pickerElement);
@@ -732,18 +742,18 @@
               return;
             }
 
-            $(this).bind(options.popupEvent, { pickerPosition: options.pickerPosition }, show);
+            $(this).on(options.popupEvent, { pickerPosition: options.pickerPosition }, show);
           }
         });
       },
 
-      showPicker: function() {
+
+      cancelPicker: function() {
         return this.each( function () {
-          if ($(this).data('pickacolorId')) {
-            show.apply(this);
-          }
+          // TODO: Implment
         });
       },
+
 
       hidePicker: function() {
         return this.each( function () {
@@ -753,13 +763,31 @@
         });
       },
 
+
       resetColor: function() {
         return this.each( function () {
-          var blah = 0;
+          // TODO: Implment
         });
       },
 
+
       setColor: function(color) {
+      },
+
+
+      showPicker: function() {
+        return this.each( function () {
+          if ($(this).data('pickacolorId')) {
+            show.apply(this);
+          }
+        });
+      },
+
+
+      submitPicker: function() {
+        return this.each( function () {
+          // TODO: Implement
+        });
       }
     };
   }();
@@ -767,9 +795,11 @@
 
   $.fn.extend({
     PickAColor:           PickAColor.init,
+    PickAColorCancel:     PickAColor.cancelPicker,
     PickAColorHide:       PickAColor.hidePicker,
-    PickAColorShow:       PickAColor.showPicker,
     PickAColorResetColor: PickAColor.resetColor,
-    PickAColorSetColor:   PickAColor.setColor
+    PickAColorSetColor:   PickAColor.setColor,
+    PickAColorShow:       PickAColor.showPicker,
+    PickAColorSubmit:     PickAColor.submitPicker
   });
 })(jQuery);
