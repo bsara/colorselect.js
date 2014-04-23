@@ -1,8 +1,8 @@
 /*!
- * pickacolor.js - v0.0.1 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.2 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
- *   Brandon Sara AKA bsara (Owner)
+ *   Brandon Sara <bsara> (Owner)
  *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
  *
  * License:
@@ -17,6 +17,18 @@
   background: url("../images/pickacolor_background.png");
   font-family: Arial, Helvetica, sans-serif;
   display: none;
+}
+.pickacolor .pickacolor-cancel {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: url("../images/pickacolor_cancel.png") top;
+  left: 295px;
+  top: 142px;
+  overflow: hidden;
+}
+.pickacolor .pickacolor-cancel.pickacolor_focus {
+  background-position: bottom;
 }
 .pickacolor .pickacolor-color {
   width: 150px;
