@@ -118,7 +118,7 @@
   overflow: hidden;
   top: 0;
   right: 0;
-  cursor: pointer;
+  cursor: ns-resize;
 }
 .pickacolor .pickacolor-rgb-r {
   background-image: url("../images/pickacolor_rgb_r.png");

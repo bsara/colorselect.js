@@ -10,11 +10,15 @@
  *   Dual licensed under the MIT and GPL-3.0 licenses (https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
  */
 
+window.PickAColor = {};
+
 (function ($) {
   var PickAColor = function () {
-    var pickerCSSClass = 'pickacolor';
-    var pickerHeight   = 176;
-    var pickerWidth    = 356;
+    var pickerCSSClass  = 'pickacolor';
+    var pickerIdDataKey = 'pickAColorPickerId';
+    var pickerDataKey   = 'pickAColor';
+    var pickerHeight    = 176;
+    var pickerWidth     = 356;
 
     var ids = {};
     var inAction;
@@ -54,7 +58,7 @@
 
 
     var fillRGBFields = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
       var rgb = hsbToRGB(hsb);
 
       picker.fields
@@ -64,7 +68,7 @@
     };
 
     var fillHSBFields = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
 
       picker.fields
             .eq(4).val(hsb.h).end()
@@ -73,7 +77,7 @@
     };
 
     var fillHexFields = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
       var hex = hsbToHex(hsb, picker.allCaps);
 
       picker.fields.eq(0).val(hex).end();
@@ -81,7 +85,7 @@
 
 
     var setSelector = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
 
       picker.selector.css('backgroundColor', "#" + hsbToHex({h: hsb.h, s: 100, b: 100}), picker.allCaps);
       picker.selectorIndic.css({
@@ -91,56 +95,26 @@
     };
 
     var setHue = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
       picker.hue.css('top', parseInt(150 - 150 * hsb.h / 360, 10));
     };
 
     var setCurrentColor = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
       picker.currentColor.css('backgroundColor', "#" + hsbToHex(hsb, picker.allCaps));
     };
 
     var setNewColor = function (hsb, pickerElement) {
-      var picker = $(pickerElement).data(pickerCSSClass);
+      var picker = $(pickerElement).data(pickerDataKey);
       picker.newColor.css('backgroundColor', "#" + hsbToHex(hsb, picker.allCaps));
     };
 
-    var setColor = function (color, pickerElement) {
-      if (typeof color === 'string') {
-        color = hexToHSB(color);
-      } else if (color.r !== undefined && color.g !== undefined && color.b !== undefined) {
-        color = rgbToHSB(color);
-      } else if (color.h !== undefined && color.s !== undefined && color.b !== undefined) {
-        color = fixHSB(color);
-      } else {
-        return this;
-      }
-      return this.each(function(){
-        if ($(this).data('pickacolorId')) {
-          var pickerElements = $("#" + $(this).data('pickacolorId'));
-          var pickerElement = pickerElements.get(0);
-          var picker = pickerElements.data(pickerCSSClass);
-
-          picker.color = color;
-          picker.origColor = color;
-
-          fillRGBFields(color, pickerElement);
-          fillHSBFields(color, pickerElement);
-          fillHexFields(color, pickerElement);
-
-          setHue(color, pickerElement);
-          setSelector(color, pickerElement);
-          setCurrentColor(color, pickerElement);
-          setNewColor(color, pickerElement);
-
-          picker.onChange.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color) ]);
-        }
-      });
-    };
-
     var resetColor = function (ev) {
-      var picker = $(this).parent().data(pickerCSSClass);
-      setColor(picker.origColor);
+      var picker = $(this).parent().data(pickerDataKey);
+
+      if (picker.livePreview === true) {
+        change.apply(this);
+      }
     };
 
 
@@ -150,7 +124,7 @@
         return false;
       }
 
-      var picker = $(this).parent().parent().data(pickerCSSClass);
+      var picker = $(this).parent().parent().data(pickerDataKey);
 
       if (picker.livePreview === true) {
         change.apply(this);
@@ -158,9 +132,9 @@
     };
 
     var change = function (ev) {
-      var pickerElements = $(this).parent().parent();
+      var pickerElements = ((this.parentNode.className === pickerCSSClass) ? $(this).parent() : $(this).parent().parent());
       var pickerElement = pickerElements.get(0);
-      var picker = pickerElements.data(pickerCSSClass);
+      var picker = pickerElements.data(pickerDataKey);
 
       var color;
 
@@ -172,12 +146,14 @@
           s: parseInt(picker.fields.eq(5).val(), 10),
           b: parseInt(picker.fields.eq(6).val(), 10)
         });
-      } else {
+      } else if (this.parentNode.className.indexOf('-rgb') > 0) {
         picker.color = color = rgbToHSB(fixRGB({
           r: parseInt(picker.fields.eq(1).val(), 10),
           g: parseInt(picker.fields.eq(2).val(), 10),
           b: parseInt(picker.fields.eq(3).val(), 10)
         }));
+      } else if (this.parentNode.className === pickerCSSClass) {
+        picker.color = color = picker.origColor;
       }
 
       if (ev) {
@@ -195,13 +171,13 @@
 
     var blur = function (ev) {
       var picker = $(this).parent().parent();
-      picker.data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + '-focus');
+      picker.data(pickerDataKey).fields.parent().removeClass(pickerCSSClass + '-focus');
     };
 
     var focus = function () {
       charMin = (this.parentNode.className.indexOf('-hex') > 0) ? 70 : 65;
 
-      $(this).parent().parent().data(pickerCSSClass).fields.parent().removeClass(pickerCSSClass + '-focus');
+      $(this).parent().parent().data(pickerDataKey).fields.parent().removeClass(pickerCSSClass + '-focus');
       $(this).parent().addClass(pickerCSSClass + '-focus');
     };
 
@@ -215,7 +191,7 @@
         y:          ev.pageY,
         inputField: inputField,
         val:        parseInt(inputField.val(), 10),
-        preview:    $(this).parent().parent().data(pickerCSSClass).livePreview
+        preview:    $(this).parent().parent().data(pickerDataKey).livePreview
       };
 
       $(document).on('mouseup', current, upIncrement);
@@ -248,14 +224,14 @@
         y: $(this).offset().top
       };
 
-      current.preview = current.pickerElements.data(pickerCSSClass).livePreview;
+      current.preview = current.pickerElements.data(pickerDataKey).livePreview;
 
       $(document).on('mouseup', current, upHue);
       $(document).on('mousemove', current, moveHue);
     };
 
     var moveHue = function (ev) {
-      var picker = ev.data.pickerElements.data(pickerCSSClass);
+      var picker = ev.data.pickerElements.data(pickerDataKey);
 
       change.apply(
         picker.fields
@@ -270,7 +246,7 @@
 
     var upHue = function (ev) {
       var pickerElement = ev.data.pickerElements.get(0);
-      var picker = ev.data.pickerElements.data(pickerCSSClass);
+      var picker = ev.data.pickerElements.data(pickerDataKey);
 
       fillRGBFields(picker.color, pickerElement);
       fillHexFields(picker.color, pickerElement);
@@ -288,14 +264,14 @@
         pos: $(this).offset()
       };
 
-      current.preview = current.pickerElements.data(pickerCSSClass).livePreview;
+      current.preview = current.pickerElements.data(pickerDataKey).livePreview;
 
       $(document).on('mouseup', current, upSelector);
       $(document).on('mousemove', current, moveSelector);
     };
 
     var moveSelector = function (ev) {
-      var picker = ev.data.pickerElements.data(pickerCSSClass);
+      var picker = ev.data.pickerElements.data(pickerDataKey);
 
       change.apply(
         picker.fields
@@ -308,7 +284,7 @@
 
     var upSelector = function (ev) {
       var pickerElement = ev.data.pickerElements.get(0);
-      var picker = ev.data.pickerElements.data(pickerCSSClass);
+      var picker = ev.data.pickerElements.data(pickerDataKey);
 
       fillRGBFields(picker.color, pickerElement);
       fillHexFields(picker.color, pickerElement);
@@ -340,9 +316,9 @@
 
 
     var show = function (ev) {
-      var pickerElements = $("#" + $(this).data('pickacolorId'));
+      var pickerElements = $("#" + $(this).data(pickerIdDataKey));
       var pickerElement = pickerElements.get(0);
-      var picker = pickerElements.data(pickerCSSClass);
+      var picker = pickerElements.data(pickerDataKey);
 
       picker.onBeforeShow.apply(this, [ picker ]);
 
@@ -434,7 +410,7 @@
     var hide = function (ev) {
       var pickerElements = ev.data.pickerElements;
       var pickerElement = pickerElements.get(0);
-      var picker = pickerElements.data(pickerCSSClass);
+      var picker = pickerElements.data(pickerDataKey);
 
       if (!isChildOf(pickerElement, ev.target, pickerElement)) {
         if (picker.onHide.apply(this, [ pickerElement ]) !== false) {
@@ -446,23 +422,22 @@
 
     var cancel = function (ev) {
       var pickerElements = $(this).parent();
-      var picker = pickerElements.data(pickerCSSClass);
-
-      var color = picker.color;
+      var pickerElement = pickerElements.get(0);
+      var picker = pickerElements.data(pickerDataKey);
 
       if (picker.onBeforeCancel.apply(pickerElements, [ picker ])) {
-        setColor(picker.origColor, pickerElement);
+        resetColor.apply(this);
 
-        picker.onCancel.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color), pickerElements.get(0) ]);
+        $(picker.el).PickAColorHide();
 
-        picker.hide.apply(pickerElements, [ { pickerElements: pickerElements } ]);
+        picker.onCancel.apply(pickerElements, [ picker.origColor, hsbToHex(picker.origColor, picker.allCaps), hsbToRGB(picker.origColor), pickerElement ]);
       }
     };
 
     var submit = function (ev) {
       var pickerElements = $(this).parent();
       var pickerElement = pickerElements.get(0);
-      var picker = pickerElements.data(pickerCSSClass);
+      var picker = pickerElements.data(pickerDataKey);
 
       var color = picker.color;
 
@@ -631,9 +606,9 @@
       }
 
       return {
-        r:Math.round(rgb.r),
-        g:Math.round(rgb.g),
-        b:Math.round(rgb.b)
+        r: Math.round(rgb.r),
+        g: Math.round(rgb.g),
+        b: Math.round(rgb.b)
       };
     };
 
@@ -679,49 +654,59 @@
         }
 
         return this.each(function () {
-          if (!$(this).data('pickacolorId')) {
+          if (!$(this).data(pickerIdDataKey)) {
             var options = $.extend({}, opt);
-            options.origColor = opt.defaultColor;
-
             var id = pickerCSSClass + parseInt(Math.random() * 1000);
-            $(this).data('pickacolorId', id);
 
             var pickerElements = $(htmlString).attr('id', id);
+
+
             if (options.popup) {
               pickerElements.appendTo(document.body);
             } else {
               pickerElements.appendTo(this).show();
             }
 
-            options.fields = pickerElements.find('input')
-                                           .on('keyup',  keyup)
-                                           .on('change', change)
-                                           .on('blur',   blur)
-                                           .on('focus',  focus);
 
-            pickerElements.find('span').on('mousedown', downIncrement).end()
-                          .find('>div.' + pickerCSSClass + '-current-color').on('click', resetColor);
-
-            options.selector = pickerElements.find('div.' + pickerCSSClass + '-color').on('mousedown', downSelector);
-            options.selectorIndic = options.selector.find('div div');
             options.el = this;
-            options.hue = pickerElements.find('div.' + pickerCSSClass + '-hue div');
+            $(options.el).data(pickerIdDataKey, id);
 
-            pickerElements.find('div.' + pickerCSSClass + '-hue').on('mousedown', downHue);
-            options.newColor = pickerElements.find('div.' + pickerCSSClass + '-new-color');
-            options.currentColor = pickerElements.find('div.' + pickerCSSClass + '-current-color');
+            options.currentColor  = pickerElements.find('.' + pickerCSSClass + '-current-color');
+            options.fields        = pickerElements.find('input');
+            options.hue           = pickerElements.find('.' + pickerCSSClass + '-hue div');
+            options.newColor      = pickerElements.find('.' + pickerCSSClass + '-new-color');
+            options.origColor     = opt.defaultColor;
+            options.selector      = pickerElements.find('.' + pickerCSSClass + '-color').on('mousedown', downSelector);
+            options.selectorIndic = options.selector.find('div div');
 
-            pickerElements.data(pickerCSSClass, options);
 
-            pickerElements.find('div.' + pickerCSSClass + '-cancel')
+            options.fields.on('keyup',  keyup)
+                          .on('change', change)
+                          .on('blur',   blur)
+                          .on('focus',  focus);
+
+            pickerElements.find('span')
+                          .on('mousedown', downIncrement);
+
+            pickerElements.find('.' + pickerCSSClass + '-current-color')
+                          .on('click', resetColor);
+
+            pickerElements.find('.' + pickerCSSClass + '-hue')
+                          .on('mousedown', downHue);
+
+            pickerElements.find('.' + pickerCSSClass + '-cancel')
                           .on('mouseenter', giveFocus)
                           .on('mouseleave', loseFocus)
-                          .on('click', clickCancel);
+                          .on('click',      clickCancel);
 
-            pickerElements.find('div.' + pickerCSSClass + '-submit')
+            pickerElements.find('.' + pickerCSSClass + '-submit')
                           .on('mouseenter', giveFocus)
                           .on('mouseleave', loseFocus)
-                          .on('click', clickSubmit);
+                          .on('click',      clickSubmit);
+
+
+            pickerElements.data(pickerDataKey, options);
+
 
             var pickerElement = pickerElements.get(0);
 
@@ -734,59 +719,66 @@
             setCurrentColor(options.defaultColor, pickerElement);
             setNewColor(options.defaultColor, pickerElement);
 
+
             if (!options.popup) {
-              pickerElements.css({
-                position: 'relative',
-                display:  'block'
-              });
+              pickerElements.css({ position: 'relative', display:  'block' });
               return;
             }
-
             $(this).on(options.popupEvent, { pickerPosition: options.pickerPosition }, show);
           }
         });
       },
 
 
-      cancelPicker: function() {
-        return this.each( function () {
-          // TODO: Implment
-        });
-      },
-
-
       hidePicker: function() {
         return this.each( function () {
-          if ($(this).data('pickacolorId')) {
-            $("#" + $(this).data('pickacolorId')).hide();
+          if ($(this).data(pickerIdDataKey)) {
+            $("#" + $(this).data(pickerIdDataKey)).hide();
           }
-        });
-      },
-
-
-      resetColor: function() {
-        return this.each( function () {
-          // TODO: Implment
         });
       },
 
 
       setColor: function(color) {
-      },
+        if (typeof color === 'string') {
+          color = hexToHSB(color);
+        } else if (color.r !== undefined && color.g !== undefined && color.b !== undefined) {
+          color = rgbToHSB(color);
+        } else if (color.h !== undefined && color.s !== undefined && color.b !== undefined) {
+          color = fixHSB(color);
+        } else {
+          return this;
+        }
 
+        return this.each(function(){
+          if ($(this).data(pickerIdDataKey)) {
+            var pickerElements = $('#' + $(this).data(pickerIdDataKey));
+            var pickerElement = pickerElements.get(0);
+            var picker = pickerElements.data(pickerDataKey);
 
-      showPicker: function() {
-        return this.each( function () {
-          if ($(this).data('pickacolorId')) {
-            show.apply(this);
+            picker.color = color;
+            picker.origColor = color;
+
+            fillRGBFields(color, pickerElement);
+            fillHSBFields(color, pickerElement);
+            fillHexFields(color, pickerElement);
+
+            setHue(color, pickerElement);
+            setSelector(color, pickerElement);
+            setCurrentColor(color, pickerElement);
+            setNewColor(color, pickerElement);
+
+            picker.onChange.apply(pickerElements, [ color, hsbToHex(color, picker.allCaps), hsbToRGB(color) ]);
           }
         });
       },
 
 
-      submitPicker: function() {
+      showPicker: function() {
         return this.each( function () {
-          // TODO: Implement
+          if ($(this).data(pickerIdDataKey)) {
+            show.apply(this);
+          }
         });
       }
     };
@@ -795,11 +787,8 @@
 
   $.fn.extend({
     PickAColor:           PickAColor.init,
-    PickAColorCancel:     PickAColor.cancelPicker,
     PickAColorHide:       PickAColor.hidePicker,
-    PickAColorResetColor: PickAColor.resetColor,
     PickAColorSetColor:   PickAColor.setColor,
-    PickAColorShow:       PickAColor.showPicker,
-    PickAColorSubmit:     PickAColor.submitPicker
+    PickAColorShow:       PickAColor.showPicker
   });
 })(jQuery);
