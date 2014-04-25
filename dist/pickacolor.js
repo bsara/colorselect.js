@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.4 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.5 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -390,34 +390,29 @@ window.PickAColor = {};
       }
 
       if (pickerPosition.left < windowBoundaries.left) {
-        switch (ev.data.pickerPosition) {
-          case 'left':
-            pickerPosition.left = inputPosition.right;
-            break;
-          case 'left-bottom':
-            pickerPosition.top -= this.offsetHeight;
-            break;
-          case 'left-top':
-            pickerPosition.top += this.offsetHeight;
-            break;
-          default:
-            pickerPosition.left = 0;
-            break;
+        if (ev.data.pickerPosition === 'left') {
+          pickerPosition.left = inputPosition.right;
+        } else {
+          pickerPosition.left = 0;
+        }
+
+        if (ev.data.pickerPosition === 'left-bottom') {
+
+        } else if (ev.data.pickerPosition === 'left-top') {
+          pickerPosition.top -= this.offsetHeight;
+          pickerPosition.top += this.offsetHeight;
         }
       } else if (pickerPosition.right > windowBoundaries.right) {
-        switch (ev.data.pickerPosition) {
-          case 'right':
-            pickerPosition.left = (inputPosition.left - pickerWidth);
-            break;
-          case 'right-bottom':
-            pickerPosition.top -= this.offsetHeight;
-            break;
-          case 'right-top':
-            pickerPosition.top += this.offsetHeight;
-            break;
-          default:
-            pickerPosition.left -= (pickerPosition.right - windowBoundaries.right);
-            break;
+        if (ev.data.pickerPosition === 'right') {
+          pickerPosition.left = (inputPosition.left - pickerWidth);
+        } else {
+          pickerPosition.left -= (pickerPosition.right - windowBoundaries.right);
+        }
+
+        if (ev.data.pickerPosition === 'right-bottom') {
+          pickerPosition.top -= this.offsetHeight;
+        } else if (ev.data.pickerPosition === 'right-top') {
+          pickerPosition.top += this.offsetHeight;
         }
       }
 
