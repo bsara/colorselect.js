@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.3 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.4 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -383,18 +383,42 @@ window.PickAColor = {};
         right:  viewPort.l + viewPort.w
       };
 
-      // BUG: Repositioning issues with new positioning options
-
       if (pickerPosition.top < windowBoundaries.top) {
-        pickerPosition.top = 0;
+        pickerPosition.top = (ev.data.pickerPosition.startsWith('top') ? inputPosition.bottom : 0);
       } else if (pickerPosition.bottom  > windowBoundaries.bottom) {
-        pickerPosition.top -= this.offsetHeight + pickerHeight;
+        pickerPosition.top -= (ev.data.pickerPosition.startsWith('bottom') ? (this.offsetHeight + pickerHeight) : (pickerPosition.bottom - windowBoundaries.bottom));
       }
 
       if (pickerPosition.left < windowBoundaries.left) {
-        pickerPosition.left = 0;
+        switch (ev.data.pickerPosition) {
+          case 'left':
+            pickerPosition.left = inputPosition.right;
+            break;
+          case 'left-bottom':
+            pickerPosition.top -= this.offsetHeight;
+            break;
+          case 'left-top':
+            pickerPosition.top += this.offsetHeight;
+            break;
+          default:
+            pickerPosition.left = 0;
+            break;
+        }
       } else if (pickerPosition.right > windowBoundaries.right) {
-        pickerPosition.left -= pickerWidth;
+        switch (ev.data.pickerPosition) {
+          case 'right':
+            pickerPosition.left = (inputPosition.left - pickerWidth);
+            break;
+          case 'right-bottom':
+            pickerPosition.top -= this.offsetHeight;
+            break;
+          case 'right-top':
+            pickerPosition.top += this.offsetHeight;
+            break;
+          default:
+            pickerPosition.left -= (pickerPosition.right - windowBoundaries.right);
+            break;
+        }
       }
 
       pickerElements.css({ left: pickerPosition.left + "px", top: pickerPosition.top + "px" });
@@ -402,6 +426,7 @@ window.PickAColor = {};
       if (picker.onShow.apply(this, [ pickerElement ]) !== false) {
         pickerElements.show();
       }
+
       $(document).on('mousedown', { pickerElements: pickerElements }, hide);
 
       return false;
