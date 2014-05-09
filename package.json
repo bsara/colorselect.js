@@ -16,6 +16,10 @@
   "bugs": {
     "url": "https://github.com/bsara/pickacolor.js/issues"
   },
+  "scripts": {
+    "clean": "gulp clean",
+    "dist":  "gulp dist"
+  },
   "devDependencies": {
     "gulp": "^3.6.0",
     "gulp-clean": "^0.2.4",
