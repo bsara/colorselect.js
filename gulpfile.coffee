@@ -78,12 +78,14 @@ gulp.task 'lint-scripts', [ 'lint-coffee', 'lint-js' ]
 gulp.task 'lint-coffee', () ->
   gulp.src "#{SCRIPTS_SRC_DIR}*.coffee"
       .pipe coffeelint()
-      .pipe coffeelint.reporter('coffeelint-stylish')
+      .pipe coffeelint.reporter()
+      .pipe coffeelint.reporter('fail')
 
 gulp.task 'lint-js', () ->
   gulp.src "#{SCRIPTS_SRC_DIR}*.js"
       .pipe jshint()
       .pipe jshint.reporter('jshint-stylish')
+      .pipe jshint.reporter('fail')
 
 
 
