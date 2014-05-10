@@ -5,5 +5,4 @@ before_install:
 before_script:
   - bower install
 script:
-  - npm lint
-  - npm dist
+  - gulp ci

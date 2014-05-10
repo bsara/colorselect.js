@@ -17,13 +17,6 @@
   "bugs": {
     "url": "https://github.com/bsara/pickacolor.js/issues"
   },
-  "scripts": {
-    "clean":          "gulp clean --require coffee-script/register",
-    "lint":           "gulp lint --require coffee-script/register",
-    "dist":           "gulp dist --require coffee-script/register",
-    "up-ver":         "npm run-script update-version",
-    "update-version": "gulp update-version --require coffee-script/register"
-  },
   "devDependencies": {
     "coffee-script": "^1.7.1",
     "coffeelint-stylish": "0.0.1",
