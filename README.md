@@ -1,6 +1,8 @@
 PickAColor.js
 =============
 
+[![Build Status](https://travis-ci.org/bsara/pickacolor.js.svg?branch=master)](https://travis-ci.org/bsara/pickacolor.js)
+
 A simple, yet stylish, javascript color picker.
 
 #### This project is a fork of "colorpicker" released 23.05.2009 by Stefan Petre which can be found here: http://www.eyecon.ro/colorpicker.
