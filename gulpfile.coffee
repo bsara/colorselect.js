@@ -56,7 +56,7 @@ STYLES_TEMP_DIR   = "#{TEMP_DIR}styles/"
 #**********************************************#
 
 gulp.task 'default', [ 'watch' ]
-gulp.taks 'ci',      [ 'lint', 'dist' ]
+gulp.task 'ci',      [ 'lint', 'dist' ]
 gulp.task 'lint',    [ 'lint-scripts' ]
 gulp.task 'clean',   [ 'clean-scripts', 'clean-styles', 'clean-images' ]
 gulp.task 'build',   [ 'build-scripts', 'build-styles', 'build-images' ]
