@@ -13,6 +13,7 @@ Thumbs.db
 
 # Build Files/Folders
 /build
+/tmp
 
 
 # Sublime Files/Folders
