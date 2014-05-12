@@ -3,7 +3,7 @@ PickAColor.js
 
 [![Build Status](https://travis-ci.org/bsara/pickacolor.js.svg?branch=master)](https://travis-ci.org/bsara/pickacolor.js)
 
-[![MIT & GPL-3.0 Licensed](http://img.shields.io/badge/license-MIT%2FGPL--3.0-blue.svg)](#license)
+[![MIT & GPL-3.0 Licensed](http://img.shields.io/badge/license-MIT%2FGPL--3.0-blue.svg?style=flat)](#license)
 
 A simple, yet stylish, javascript color picker.
 
