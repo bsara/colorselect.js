@@ -23,7 +23,6 @@
   ],
   "ignore": [
     "**/*",
-    "!bower.json",
     "!dist/**/*",
     "!LICENSES",
     "!README.md"
