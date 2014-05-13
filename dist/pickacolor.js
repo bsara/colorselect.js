@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.5 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.9 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -812,3 +812,19 @@ window.PickAColor = {};
     PickAColorShow:       PickAColor.showPicker
   });
 })(jQuery);
+
+
+
+
+if (typeof String.prototype.startsWith !== 'function') {
+  String.prototype.startsWith = function(startString) {
+    return (this.slice(0, startString.length) === startString);
+  };
+}
+
+
+if (typeof String.prototype.endsWith !== 'function') {
+  String.prototype.endsWith = function(endString) {
+    return (this.slice(-endString.length) === endString);
+  };
+}
