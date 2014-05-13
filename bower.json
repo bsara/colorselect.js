@@ -15,8 +15,7 @@
   ],
   "main": [
     "dist/pickacolor.min.js",
-    "dist/styles/pickacolor.min.css",
-    "dist/images/*"
+    "dist/styles/pickacolor.min.css"
   ],
   "license": [
     "MIT",
