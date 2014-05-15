@@ -10,9 +10,22 @@ A simple, yet stylish, javascript color picker.
 #### This project is a fork of "colorpicker" released 23.05.2009 by Stefan Petre which can be found here: http://www.eyecon.ro/colorpicker.
 
 
-## Features
+## Why?
 
 **This section has not yet been written! Please check back later.**
+
+
+## Features
+
+To view feature demos, see [Documentation & Usage](#documentation--usage) below.
+
+- **Lightweight**
+- Easy Input Field Value Binding
+- Popup Mode
+- Static Mode
+- Automatic & Manual Popup Positioning
+- API Hooks
+- Compatible with [Ember.js](http://emberjs.com)
 
 
 ## Documentation & Usage
@@ -34,11 +47,11 @@ A simple, yet stylish, javascript color picker.
 
 ## Want to Contribute?
 
-[See the contribution info page](CONTRIBUTING.md)
+[See the contribution info page](https://github.com/bsara/pickacolor.js/blob/master/CONTRIBUTING.md)
 
 
 ## License
 
 Dual licensed under the [MIT](http://opensource.org/licenses/MIT) and [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0-standalone.html) licenses.
 
-[View License](LICENSES)
+[View License](https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
