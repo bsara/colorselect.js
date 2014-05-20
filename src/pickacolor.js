@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.9 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v#VERSION# - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -24,6 +24,9 @@ window.PickAColor = {};
     var inAction;
     var charMin = 65;
     var visible;
+
+    var cancelButtonHTML = '<div class="' + pickerCSSClass + '-cancel"></div>';
+    var submitButtonHTML = '<div class="' + pickerCSSClass + '-submit"></div>';
     var htmlString = '<div class="' + pickerCSSClass + '">'
                      + '<div class="' + pickerCSSClass + '-color"><div><div></div></div></div>'
                      + '<div class="' + pickerCSSClass + '-hue"><div></div></div>'
@@ -36,13 +39,14 @@ window.PickAColor = {};
                      + '<div class="' + pickerCSSClass + '-hsb-h ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
                      + '<div class="' + pickerCSSClass + '-hsb-s ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
                      + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-cancel"></div>'
-                     + '<div class="' + pickerCSSClass + '-submit"></div>'
+                     + cancelButtonHTML
+                     + submitButtonHTML
                    + '</div>';
 
     var defaults = {
       allCaps:        true,
       defaultColor:   'FF0000',
+      hideButtons:    false,
       livePreview:    true,
       onBeforeCancel: function (picker) { return true; },
       onBeforeShow:   function (picker) { return true; },
@@ -677,6 +681,11 @@ window.PickAColor = {};
           if (!$(this).data(pickerIdDataKey)) {
             var options = $.extend({}, opt);
             var id = pickerCSSClass + parseInt(Math.random() * 1000);
+
+            if (opt.hideButtons === true) {
+              htmlString.replace(cancelButtonHTML, "");
+              htmlString.replace(submitButtonHTML, "");
+            }
 
             var pickerElements = $(htmlString).attr('id', id);
 

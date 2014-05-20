@@ -12,6 +12,7 @@ coffeelint  = require 'gulp-coffeelint'
 concat      = require 'gulp-concat'
 csslint     = require 'gulp-csslint'
 es          = require 'event-stream'
+fs          = require 'fs'
 jshint      = require 'gulp-jshint'
 minifyCSS   = require 'gulp-minify-css'
 rename      = require 'gulp-rename'
@@ -68,8 +69,8 @@ STYLES_SRC_DIR    = "#{SRC_DIR}styles/"
 #**********************************************#
 
 gulp.task 'default', [ 'build' ]
-gulp.task 'ci',      () -> runSequence 'lint', 'dist'
-gulp.task 'lint',    () -> runSequence 'lint-js', 'lint-coffee'
+gulp.task 'ci',      [ 'dist'  ]
+gulp.task 'lint',    () -> runSequence 'lint-coffee', 'lint-js'
 gulp.task 'build',   () -> runSequence 'build-coffee', 'build-js', 'build-styles', 'build-images'
 gulp.task 'rebuild', () -> runSequence 'clean-build', 'build'
 
@@ -81,12 +82,12 @@ gulp.task 'clean',   [ 'clean-build', 'clean-dist' ]
 
 
 gulp.task 'clean-build', () ->
-  gulp.src "#{BUILD_DIR}**/*"
+  gulp.src "#{BUILD_DIR}"
       .pipe clean()
 
 
 gulp.task 'clean-dist', () ->
-  gulp.src "#{DIST_DIR}**/*"
+  gulp.src "#{DIST_DIR}"
       .pipe clean()
 
 
@@ -98,12 +99,12 @@ gulp.task 'clean-dep', () ->
 
 # ---- Distribution Tasks ---- #
 
-gulp.task 'dist', () -> runSequence 'clean', 'dist-scripts', 'dist-styles', 'dist-images', 'up-ver','dist-zip'
+gulp.task 'dist', () -> runSequence 'clean', 'dist-scripts', 'dist-styles', 'dist-images', 'bump'
 
 
 gulp.task 'dist-zip', () ->
   gulp.src [ "#{DIST_DIR}**/*", LICENSE_PATH, README_PATH ]
-      .pipe zip("#{PROJECT_NAME}-#{require(BOWER_JSON_PATH).version}.zip")
+      .pipe zip("#{PROJECT_NAME}-#{JSON.parse(fs.readFileSync(BOWER_JSON_PATH)).version}.zip")
       .pipe gulp.dest(DIST_DIR)
 
 
@@ -194,12 +195,13 @@ gulp.task 'dist-images', [ 'build-images' ], () ->
 
 # ---- Versioning Tasks ---- #
 
-gulp.task 'up-ver', () ->
-  es.merge(
-    gulp.src [ BOWER_JSON_PATH, NPM_JSON_PATH ]
-        .pipe bump()
-        .pipe gulp.dest('./')
-    gulp.src [ "#{DIST_DIR}**/*.js", "#{DIST_DIR}**/*.css" ]
-        .pipe replace(/#VERSION#/g, require(BOWER_JSON_PATH).version)
-        .pipe gulp.dest(DIST_DIR)
-  )
+gulp.task 'bump-json', () ->
+  gulp.src [ BOWER_JSON_PATH, NPM_JSON_PATH ]
+      .pipe bump()
+      .pipe gulp.dest('./')
+
+
+gulp.task 'bump', [ 'bump-json' ], () ->
+  gulp.src "#{DIST_DIR}**/*.{css,js}"
+      .pipe replace(/#VERSION#/g, JSON.parse(fs.readFileSync(BOWER_JSON_PATH)).version)
+      .pipe gulp.dest(DIST_DIR)
