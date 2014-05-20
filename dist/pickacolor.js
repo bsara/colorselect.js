@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.11 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.12 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -46,7 +46,7 @@ window.PickAColor = {};
     var defaults = {
       allCaps:        true,
       defaultColor:   'FF0000',
-      hideButtons:    false,
+      hideButtons:    true,
       livePreview:    true,
       onBeforeCancel: function (picker) { return true; },
       onBeforeShow:   function (picker) { return true; },

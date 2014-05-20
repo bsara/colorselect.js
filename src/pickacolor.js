@@ -46,7 +46,7 @@ window.PickAColor = {};
     var defaults = {
       allCaps:        true,
       defaultColor:   'FF0000',
-      hideButtons:    false,
+      hideButtons:    true,
       livePreview:    true,
       onBeforeCancel: function (picker) { return true; },
       onBeforeShow:   function (picker) { return true; },
