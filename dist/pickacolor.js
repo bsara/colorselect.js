@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.10 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.11 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara> (Owner)
@@ -682,9 +682,9 @@ window.PickAColor = {};
             var options = $.extend({}, opt);
             var id = pickerCSSClass + parseInt(Math.random() * 1000);
 
-            if (opt.hideButtons === true) {
-              htmlString.replace(cancelButtonHTML, "");
-              htmlString.replace(submitButtonHTML, "");
+            if (options.hideButtons === true) {
+              htmlString = htmlString.replace(cancelButtonHTML, "")
+                                     .replace(submitButtonHTML, "");
             }
 
             var pickerElements = $(htmlString).attr('id', id);
@@ -723,15 +723,17 @@ window.PickAColor = {};
             pickerElements.find('.' + pickerCSSClass + '-hue')
                           .on('mousedown', downHue);
 
-            pickerElements.find('.' + pickerCSSClass + '-cancel')
-                          .on('mouseenter', giveFocus)
-                          .on('mouseleave', loseFocus)
-                          .on('click',      clickCancel);
+            if (options.hideButtons === false) {
+              pickerElements.find('.' + pickerCSSClass + '-cancel')
+                            .on('mouseenter', giveFocus)
+                            .on('mouseleave', loseFocus)
+                            .on('click',      clickCancel);
 
-            pickerElements.find('.' + pickerCSSClass + '-submit')
-                          .on('mouseenter', giveFocus)
-                          .on('mouseleave', loseFocus)
-                          .on('click',      clickSubmit);
+              pickerElements.find('.' + pickerCSSClass + '-submit')
+                            .on('mouseenter', giveFocus)
+                            .on('mouseleave', loseFocus)
+                            .on('click',      clickSubmit);
+            }
 
 
             pickerElements.data(pickerDataKey, options);
