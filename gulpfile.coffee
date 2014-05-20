@@ -143,7 +143,7 @@ gulp.task 'lint-js', ()->
       .pipe jshint.reporter('fail')
 
 
-gulp.task 'build-js', [ 'lint-js' ] () ->
+gulp.task 'build-js', [ 'lint-js' ], () ->
   gulp.src "#{SCRIPTS_SRC_DIR}*.js"
       .pipe gulp.dest(SCRIPTS_BUILD_DIR)
 
