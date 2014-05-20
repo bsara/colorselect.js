@@ -69,10 +69,21 @@ STYLES_SRC_DIR    = "#{SRC_DIR}styles/"
 #**********************************************#
 
 gulp.task 'default', [ 'build' ]
-gulp.task 'ci',      [ 'dist'  ]
+
+gulp.task 'ci',      () -> runSequence 'dist', 'publish'
 gulp.task 'lint',    () -> runSequence 'lint-coffee', 'lint-js'
 gulp.task 'build',   () -> runSequence 'build-coffee', 'build-js', 'build-styles', 'build-images'
 gulp.task 'rebuild', () -> runSequence 'clean-build', 'build'
+
+
+
+# ---- Dependency Resolution Tasks ---- #
+
+gulp.task 'reinst-dep', () -> runSequence 'clean-dep', 'inst-dep'
+
+
+gulp.task 'inst-dep', () ->
+  bower()
 
 
 
@@ -109,13 +120,10 @@ gulp.task 'dist-zip', () ->
 
 
 
-# ---- Dependency Resolution Tasks ---- #
+# ---- Publishing Tasks ---- #
 
-gulp.task 'reinst-dep', () -> runSequence 'clean-dep', 'inst-dep'
-
-
-gulp.task 'inst-dep', () ->
-  bower()
+gulp.task 'publish', () ->
+  util.log "TODO: Implement"
 
 
 
