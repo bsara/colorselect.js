@@ -39,7 +39,6 @@ NPM_JSON_PATH     = "./package.json"
 
 LICENSE_PATH      = "./LICENSES"
 README_PATH       = "./README.md"
-ZIP_NAME          = "#{PROJECT_NAME}.zip"
 
 
 BUILD_DIR         = "build/"
@@ -104,7 +103,7 @@ gulp.task 'dist', () -> runSequence 'clean', 'dist-scripts', 'dist-styles', 'dis
 
 gulp.task 'dist-zip', () ->
   gulp.src [ "#{DIST_DIR}**/*", LICENSE_PATH, README_PATH ]
-      .pipe zip(ZIP_NAME)
+      .pipe zip("#{PROJECT_NAME}-#{require(BOWER_JSON_PATH).version}.zip")
       .pipe gulp.dest(DIST_DIR)
 
 
