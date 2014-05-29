@@ -1,36 +1,404 @@
 /*!
- * pickacolor.js - v0.0.12 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.13 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
- *   Brandon Sara <bsara> (Owner)
+ *   Brandon Sara <bsara>
  *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
+ *   Rob Foster
  *
  * License:
  *   Copyright (c) 2014 Brandon Dale Sara
  *   Dual licensed under the MIT and GPL-3.0 licenses (https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
  */
-.pickacolor {
-  width: 356px;
-  height: 176px;
+/* TINY RESET */
+.pickacolor,
+.pickacolor-advanced,
+.pickacolor-simple {
+  line-height: 1;
+}
+.pickacolor a,
+.pickacolor-advanced a,
+.pickacolor-simple a,
+.pickacolor abbr,
+.pickacolor-advanced abbr,
+.pickacolor-simple abbr,
+.pickacolor acronym,
+.pickacolor-advanced acronym,
+.pickacolor-simple acronym,
+.pickacolor address,
+.pickacolor-advanced address,
+.pickacolor-simple address,
+.pickacolor applet,
+.pickacolor-advanced applet,
+.pickacolor-simple applet,
+.pickacolor article,
+.pickacolor-advanced article,
+.pickacolor-simple article,
+.pickacolor aside,
+.pickacolor-advanced aside,
+.pickacolor-simple aside,
+.pickacolor audio,
+.pickacolor-advanced audio,
+.pickacolor-simple audio,
+.pickacolor b,
+.pickacolor-advanced b,
+.pickacolor-simple b,
+.pickacolor big,
+.pickacolor-advanced big,
+.pickacolor-simple big,
+.pickacolor blockquote,
+.pickacolor-advanced blockquote,
+.pickacolor-simple blockquote,
+.pickacolor button,
+.pickacolor-advanced button,
+.pickacolor-simple button,
+.pickacolor canvas,
+.pickacolor-advanced canvas,
+.pickacolor-simple canvas,
+.pickacolor caption,
+.pickacolor-advanced caption,
+.pickacolor-simple caption,
+.pickacolor center,
+.pickacolor-advanced center,
+.pickacolor-simple center,
+.pickacolor cite,
+.pickacolor-advanced cite,
+.pickacolor-simple cite,
+.pickacolor code,
+.pickacolor-advanced code,
+.pickacolor-simple code,
+.pickacolor dd,
+.pickacolor-advanced dd,
+.pickacolor-simple dd,
+.pickacolor del,
+.pickacolor-advanced del,
+.pickacolor-simple del,
+.pickacolor details,
+.pickacolor-advanced details,
+.pickacolor-simple details,
+.pickacolor dfn,
+.pickacolor-advanced dfn,
+.pickacolor-simple dfn,
+.pickacolor div,
+.pickacolor-advanced div,
+.pickacolor-simple div,
+.pickacolor dl,
+.pickacolor-advanced dl,
+.pickacolor-simple dl,
+.pickacolor dt,
+.pickacolor-advanced dt,
+.pickacolor-simple dt,
+.pickacolor em,
+.pickacolor-advanced em,
+.pickacolor-simple em,
+.pickacolor embed,
+.pickacolor-advanced embed,
+.pickacolor-simple embed,
+.pickacolor fieldset,
+.pickacolor-advanced fieldset,
+.pickacolor-simple fieldset,
+.pickacolor figcaption,
+.pickacolor-advanced figcaption,
+.pickacolor-simple figcaption,
+.pickacolor figure,
+.pickacolor-advanced figure,
+.pickacolor-simple figure,
+.pickacolor footer,
+.pickacolor-advanced footer,
+.pickacolor-simple footer,
+.pickacolor form,
+.pickacolor-advanced form,
+.pickacolor-simple form,
+.pickacolor h1,
+.pickacolor-advanced h1,
+.pickacolor-simple h1,
+.pickacolor h2,
+.pickacolor-advanced h2,
+.pickacolor-simple h2,
+.pickacolor h3,
+.pickacolor-advanced h3,
+.pickacolor-simple h3,
+.pickacolor h4,
+.pickacolor-advanced h4,
+.pickacolor-simple h4,
+.pickacolor h5,
+.pickacolor-advanced h5,
+.pickacolor-simple h5,
+.pickacolor h6,
+.pickacolor-advanced h6,
+.pickacolor-simple h6,
+.pickacolor header,
+.pickacolor-advanced header,
+.pickacolor-simple header,
+.pickacolor hgroup,
+.pickacolor-advanced hgroup,
+.pickacolor-simple hgroup,
+.pickacolor i,
+.pickacolor-advanced i,
+.pickacolor-simple i,
+.pickacolor iframe,
+.pickacolor-advanced iframe,
+.pickacolor-simple iframe,
+.pickacolor img,
+.pickacolor-advanced img,
+.pickacolor-simple img,
+.pickacolor ins,
+.pickacolor-advanced ins,
+.pickacolor-simple ins,
+.pickacolor kbd,
+.pickacolor-advanced kbd,
+.pickacolor-simple kbd,
+.pickacolor label,
+.pickacolor-advanced label,
+.pickacolor-simple label,
+.pickacolor legend,
+.pickacolor-advanced legend,
+.pickacolor-simple legend,
+.pickacolor li,
+.pickacolor-advanced li,
+.pickacolor-simple li,
+.pickacolor mark,
+.pickacolor-advanced mark,
+.pickacolor-simple mark,
+.pickacolor menu,
+.pickacolor-advanced menu,
+.pickacolor-simple menu,
+.pickacolor nav,
+.pickacolor-advanced nav,
+.pickacolor-simple nav,
+.pickacolor object,
+.pickacolor-advanced object,
+.pickacolor-simple object,
+.pickacolor ol,
+.pickacolor-advanced ol,
+.pickacolor-simple ol,
+.pickacolor output,
+.pickacolor-advanced output,
+.pickacolor-simple output,
+.pickacolor p,
+.pickacolor-advanced p,
+.pickacolor-simple p,
+.pickacolor pre,
+.pickacolor-advanced pre,
+.pickacolor-simple pre,
+.pickacolor q,
+.pickacolor-advanced q,
+.pickacolor-simple q,
+.pickacolor ruby,
+.pickacolor-advanced ruby,
+.pickacolor-simple ruby,
+.pickacolor s,
+.pickacolor-advanced s,
+.pickacolor-simple s,
+.pickacolor samp,
+.pickacolor-advanced samp,
+.pickacolor-simple samp,
+.pickacolor section,
+.pickacolor-advanced section,
+.pickacolor-simple section,
+.pickacolor small,
+.pickacolor-advanced small,
+.pickacolor-simple small,
+.pickacolor span,
+.pickacolor-advanced span,
+.pickacolor-simple span,
+.pickacolor strike,
+.pickacolor-advanced strike,
+.pickacolor-simple strike,
+.pickacolor strong,
+.pickacolor-advanced strong,
+.pickacolor-simple strong,
+.pickacolor sub,
+.pickacolor-advanced sub,
+.pickacolor-simple sub,
+.pickacolor summary,
+.pickacolor-advanced summary,
+.pickacolor-simple summary,
+.pickacolor sup,
+.pickacolor-advanced sup,
+.pickacolor-simple sup,
+.pickacolor table,
+.pickacolor-advanced table,
+.pickacolor-simple table,
+.pickacolor tbody,
+.pickacolor-advanced tbody,
+.pickacolor-simple tbody,
+.pickacolor td,
+.pickacolor-advanced td,
+.pickacolor-simple td,
+.pickacolor tfoot,
+.pickacolor-advanced tfoot,
+.pickacolor-simple tfoot,
+.pickacolor th,
+.pickacolor-advanced th,
+.pickacolor-simple th,
+.pickacolor thead,
+.pickacolor-advanced thead,
+.pickacolor-simple thead,
+.pickacolor time,
+.pickacolor-advanced time,
+.pickacolor-simple time,
+.pickacolor tr,
+.pickacolor-advanced tr,
+.pickacolor-simple tr,
+.pickacolor tt,
+.pickacolor-advanced tt,
+.pickacolor-simple tt,
+.pickacolor u,
+.pickacolor-advanced u,
+.pickacolor-simple u,
+.pickacolor ul,
+.pickacolor-advanced ul,
+.pickacolor-simple ul,
+.pickacolor var,
+.pickacolor-advanced var,
+.pickacolor-simple var,
+.pickacolor video,
+.pickacolor-advanced video,
+.pickacolor-simple video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-weight: 400;
+}
+.pickacolor article,
+.pickacolor-advanced article,
+.pickacolor-simple article,
+.pickacolor aside,
+.pickacolor-advanced aside,
+.pickacolor-simple aside,
+.pickacolor details,
+.pickacolor-advanced details,
+.pickacolor-simple details,
+.pickacolor figcaption,
+.pickacolor-advanced figcaption,
+.pickacolor-simple figcaption,
+.pickacolor figure,
+.pickacolor-advanced figure,
+.pickacolor-simple figure,
+.pickacolor footer,
+.pickacolor-advanced footer,
+.pickacolor-simple footer,
+.pickacolor header,
+.pickacolor-advanced header,
+.pickacolor-simple header,
+.pickacolor hgroup,
+.pickacolor-advanced hgroup,
+.pickacolor-simple hgroup,
+.pickacolor menu,
+.pickacolor-advanced menu,
+.pickacolor-simple menu,
+.pickacolor nav,
+.pickacolor-advanced nav,
+.pickacolor-simple nav,
+.pickacolor section,
+.pickacolor-advanced section,
+.pickacolor-simple section {
+  display: block;
+}
+.pickacolor ol,
+.pickacolor-advanced ol,
+.pickacolor-simple ol,
+.pickacolor ul,
+.pickacolor-advanced ul,
+.pickacolor-simple ul {
+  list-style: none;
+}
+.pickacolor blockquote,
+.pickacolor-advanced blockquote,
+.pickacolor-simple blockquote,
+.pickacolor q,
+.pickacolor-advanced q,
+.pickacolor-simple q {
+  quotes: none;
+}
+.pickacolor blockquote:after,
+.pickacolor-advanced blockquote:after,
+.pickacolor-simple blockquote:after,
+.pickacolor blockquote:before,
+.pickacolor-advanced blockquote:before,
+.pickacolor-simple blockquote:before,
+.pickacolor q:after,
+.pickacolor-advanced q:after,
+.pickacolor-simple q:after,
+.pickacolor q:before,
+.pickacolor-advanced q:before,
+.pickacolor-simple q:before {
+  content: '';
+  content: none;
+}
+.pickacolor table,
+.pickacolor-advanced table,
+.pickacolor-simple table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.pickacolor button:focus,
+.pickacolor-advanced button:focus,
+.pickacolor-simple button:focus,
+.pickacolor input:focus,
+.pickacolor-advanced input:focus,
+.pickacolor-simple input:focus,
+.pickacolor select:focus,
+.pickacolor-advanced select:focus,
+.pickacolor-simple select:focus,
+.pickacolor textarea:focus,
+.pickacolor-advanced textarea:focus,
+.pickacolor-simple textarea:focus {
+  outline: 0;
+}
+.pickacolor article,
+.pickacolor-advanced article,
+.pickacolor-simple article,
+.pickacolor aside,
+.pickacolor-advanced aside,
+.pickacolor-simple aside,
+.pickacolor details,
+.pickacolor-advanced details,
+.pickacolor-simple details,
+.pickacolor figcaption,
+.pickacolor-advanced figcaption,
+.pickacolor-simple figcaption,
+.pickacolor figure,
+.pickacolor-advanced figure,
+.pickacolor-simple figure,
+.pickacolor footer,
+.pickacolor-advanced footer,
+.pickacolor-simple footer,
+.pickacolor header,
+.pickacolor-advanced header,
+.pickacolor-simple header,
+.pickacolor hgroup,
+.pickacolor-advanced hgroup,
+.pickacolor-simple hgroup,
+.pickacolor main,
+.pickacolor-advanced main,
+.pickacolor-simple main,
+.pickacolor nav,
+.pickacolor-advanced nav,
+.pickacolor-simple nav,
+.pickacolor section,
+.pickacolor-advanced section,
+.pickacolor-simple section,
+.pickacolor summary,
+.pickacolor-advanced summary,
+.pickacolor-simple summary {
+  display: block;
+}
+/* END TINY RESET */
+.pickacolor,
+.pickacolor-advanced,
+.pickacolor-simple {
   overflow: hidden;
   position: absolute;
-  background: url("../images/pickacolor_background.png");
   font-family: Arial, Helvetica, sans-serif;
   display: none;
 }
-.pickacolor .pickacolor-cancel {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: url("../images/pickacolor_cancel.png") top;
-  left: 295px;
-  top: 142px;
-  overflow: hidden;
-}
-.pickacolor .pickacolor-cancel.pickacolor_focus {
-  background-position: bottom;
-}
-.pickacolor .pickacolor-color {
+.pickacolor .pickacolor-color,
+.pickacolor-advanced .pickacolor-color,
+.pickacolor-simple .pickacolor-color {
   width: 150px;
   height: 150px;
   left: 14px;
@@ -40,7 +408,9 @@
   overflow: hidden;
   cursor: crosshair;
 }
-.pickacolor .pickacolor-color div {
+.pickacolor .pickacolor-color div,
+.pickacolor-advanced .pickacolor-color div,
+.pickacolor-simple .pickacolor-color div {
   position: absolute;
   top: 0;
   left: 0;
@@ -48,7 +418,9 @@
   height: 150px;
   background: url("../images/pickacolor_overlay.png");
 }
-.pickacolor .pickacolor-color div div {
+.pickacolor .pickacolor-color div div,
+.pickacolor-advanced .pickacolor-color div div,
+.pickacolor-simple .pickacolor-color div div {
   position: absolute;
   top: 0;
   left: 0;
@@ -58,7 +430,9 @@
   background: url("../images/pickacolor_select.gif");
   margin: -5px 0 0 -5px;
 }
-.pickacolor .pickacolor-hue {
+.pickacolor .pickacolor-hue,
+.pickacolor-advanced .pickacolor-hue,
+.pickacolor-simple .pickacolor-hue {
   position: absolute;
   top: 13px;
   left: 171px;
@@ -66,7 +440,9 @@
   height: 150px;
   cursor: row-resize;
 }
-.pickacolor .pickacolor-hue div {
+.pickacolor .pickacolor-hue div,
+.pickacolor-advanced .pickacolor-hue div,
+.pickacolor-simple .pickacolor-hue div {
   position: absolute;
   width: 35px;
   height: 9px;
@@ -75,100 +451,14 @@
   margin: -4px 0 0 0;
   left: 0px;
 }
-.pickacolor .pickacolor-new-color {
-  position: absolute;
-  width: 60px;
-  height: 30px;
-  left: 213px;
-  top: 13px;
-  background: #f00;
-}
-.pickacolor .pickacolor-current-color {
-  position: absolute;
-  width: 60px;
-  height: 30px;
-  left: 283px;
-  top: 13px;
-  background: #f00;
-}
-.pickacolor .pickacolor-hex {
-  position: absolute;
-  width: 72px;
-  height: 22px;
-  background: url("../images/pickacolor_hex.png") top;
-  left: 212px;
-  top: 142px;
-}
-.pickacolor .pickacolor-hex.pickacolor_focus {
+.pickacolor .pickacolor-slider,
+.pickacolor-advanced .pickacolor-slider,
+.pickacolor-simple .pickacolor-slider {
   background-position: bottom;
 }
-.pickacolor .pickacolor-hex input {
-  right: 6px;
-}
-.pickacolor .pickacolor-field {
-  height: 22px;
-  width: 62px;
-  background-position: top;
-  position: absolute;
-}
-.pickacolor .pickacolor-field span {
-  position: absolute;
-  width: 12px;
-  height: 22px;
-  overflow: hidden;
-  top: 0;
-  right: 0;
-  cursor: ns-resize;
-}
-.pickacolor .pickacolor-rgb-r {
-  background-image: url("../images/pickacolor_rgb_r.png");
-  top: 52px;
-  left: 212px;
-}
-.pickacolor .pickacolor-rgb-g {
-  background-image: url("../images/pickacolor_rgb_g.png");
-  top: 82px;
-  left: 212px;
-}
-.pickacolor .pickacolor-rgb-b {
-  background-image: url("../images/pickacolor_rgb_b.png");
-  top: 112px;
-  left: 212px;
-}
-.pickacolor .pickacolor-hsb-h {
-  background-image: url("../images/pickacolor_hsb_h.png");
-  top: 52px;
-  left: 282px;
-}
-.pickacolor .pickacolor-hsb-s {
-  background-image: url("../images/pickacolor_hsb_s.png");
-  top: 82px;
-  left: 282px;
-}
-.pickacolor .pickacolor-hsb-b {
-  background-image: url("../images/pickacolor_hsb_b.png");
-  top: 112px;
-  left: 282px;
-}
-.pickacolor .pickacolor-submit {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: url("../images/pickacolor_submit.png") top;
-  left: 322px;
-  top: 142px;
-  overflow: hidden;
-}
-.pickacolor .pickacolor-submit.pickacolor_focus {
-  background-position: bottom;
-}
-.pickacolor .pickacolor-focus {
-  background-position: center;
-}
-.pickacolor .pickacolor-slider {
-  background-position: bottom;
-}
-.pickacolor input {
+.pickacolor input.pickacolor-input,
+.pickacolor-advanced input.pickacolor-input,
+.pickacolor-simple input.pickacolor-input {
   background-color: transparent;
   border: 1px solid transparent;
   position: absolute;
@@ -181,4 +471,135 @@
   margin: 0;
   padding: 0;
   height: 11px;
+}
+.pickacolor-advanced {
+  background: url("../images/pickacolor_background_advanced_dark.png");
+  background-size: 356px 176px;
+  width: 356px;
+  height: 176px;
+/*
+  .pickacolor-focus
+    background-position: center
+  */
+}
+.pickacolor-advanced .pickacolor-cancel {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: url("../images/pickacolor_cancel.png") top;
+  left: 295px;
+  top: 142px;
+  overflow: hidden;
+}
+.pickacolor-advanced .pickacolor-cancel.pickacolor_focus {
+  background-position: bottom;
+}
+.pickacolor-advanced .pickacolor-new-color {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  left: 213px;
+  top: 13px;
+  background: #f00;
+}
+.pickacolor-advanced .pickacolor-current-color {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  left: 283px;
+  top: 13px;
+  background: #f00;
+}
+.pickacolor-advanced .pickacolor-field {
+  height: 22px;
+  width: 62px;
+  background-position: top;
+  position: absolute;
+}
+.pickacolor-advanced .pickacolor-field span {
+  position: absolute;
+  width: 12px;
+  height: 22px;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  cursor: ns-resize;
+}
+.pickacolor-advanced .pickacolor-rgb-r {
+  background-image: url("../images/pickacolor_rgb_r.png");
+  top: 52px;
+  left: 212px;
+}
+.pickacolor-advanced .pickacolor-rgb-g {
+  background-image: url("../images/pickacolor_rgb_g.png");
+  top: 82px;
+  left: 212px;
+}
+.pickacolor-advanced .pickacolor-rgb-b {
+  background-image: url("../images/pickacolor_rgb_b.png");
+  top: 112px;
+  left: 212px;
+}
+.pickacolor-advanced .pickacolor-hsb-h {
+  background-image: url("../images/pickacolor_hsb_h.png");
+  top: 52px;
+  left: 282px;
+}
+.pickacolor-advanced .pickacolor-hsb-s {
+  background-image: url("../images/pickacolor_hsb_s.png");
+  top: 82px;
+  left: 282px;
+}
+.pickacolor-advanced .pickacolor-hsb-b {
+  background-image: url("../images/pickacolor_hsb_b.png");
+  top: 112px;
+  left: 282px;
+}
+.pickacolor-advanced .pickacolor-hex {
+  position: absolute;
+  width: 72px;
+  height: 22px;
+  background: url("../images/pickacolor_hex.png") top;
+  left: 212px;
+  top: 142px;
+/*
+    &.pickacolor-focus
+      background-position: bottom
+    */
+}
+.pickacolor-advanced .pickacolor-hex input {
+  right: 6px;
+}
+.pickacolor-advanced .pickacolor-submit {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: url("../images/pickacolor_submit.png") top;
+  left: 322px;
+  top: 142px;
+  overflow: hidden;
+/*
+    &.pickacolor_focus
+      background-position: bottom
+    */
+}
+.pickacolor-simple {
+  background: url("../images/pickacolor_background_simple_light.png");
+  background-size: 210px 176px;
+  width: 210px;
+  height: 176px;
+}
+.pickacolor-simple .pickacolor-cancel,
+.pickacolor-simple .pickacolor-new-color,
+.pickacolor-simple .pickacolor-current-color,
+.pickacolor-simple .pickacolor-hex,
+.pickacolor-simple .pickacolor-field,
+.pickacolor-simple .pickacolor-rgb-r,
+.pickacolor-simple .pickacolor-rgb-g,
+.pickacolor-simple .pickacolor-rgb-b,
+.pickacolor-simple .pickacolor-hsb-h,
+.pickacolor-simple .pickacolor-hsb-s,
+.pickacolor-simple .pickacolor-hsb-b,
+.pickacolor-simple .pickacolor-submit {
+  display: none;
 }
