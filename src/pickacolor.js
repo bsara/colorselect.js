@@ -2,8 +2,9 @@
  * pickacolor.js - v#VERSION# - https://github.com/bsara/pickacolor.js
  *
  * Authors:
- *   Brandon Sara <bsara> (Owner)
+ *   Brandon Sara <bsara>
  *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
+ *   Rob Foster
  *
  * License:
  *   Copyright (c) 2014 Brandon Dale Sara
@@ -14,11 +15,31 @@ window.PickAColor = {};
 
 (function ($) {
   var PickAColor = function () {
+    var defaults = {
+      allCaps        : true,
+      defaultColor   : 'FF0000',
+      hideButtons    : true,
+      livePreview    : true,
+      onBeforeCancel : function (picker) { return true; },
+      onBeforeShow   : function (picker) { return true; },
+      onCancel       : function (hsb, hex, rgb, pickerElement) {},
+      onChange       : function (hsb, hex, rgb) {},
+      onHide         : function (pickerElement) {},
+      onShow         : function (pickerElement) {},
+      onSubmit       : function (hsb, hex, rgb, pickerElement) {},
+      pickerPosition : 'bottom-left',
+      popup          : true,
+      popupEvent     : 'click',
+      type           : 'simple'
+    };
+
     var pickerCSSClass  = 'pickacolor';
     var pickerIdDataKey = 'pickAColorPickerId';
     var pickerDataKey   = 'pickAColor';
-    var pickerHeight    = 176;
-    var pickerWidth     = 356;
+    var pickerDimens    = {
+      advanced : { height: 176, width: 356 },
+      simple   : { height: 176, width: 210 }
+    };
 
     var ids = {};
     var inAction;
@@ -27,38 +48,36 @@ window.PickAColor = {};
 
     var cancelButtonHTML = '<div class="' + pickerCSSClass + '-cancel"></div>';
     var submitButtonHTML = '<div class="' + pickerCSSClass + '-submit"></div>';
-    var htmlString = '<div class="' + pickerCSSClass + '">'
-                     + '<div class="' + pickerCSSClass + '-color"><div><div></div></div></div>'
-                     + '<div class="' + pickerCSSClass + '-hue"><div></div></div>'
-                     + '<div class="' + pickerCSSClass + '-new-color"></div>'
-                     + '<div class="' + pickerCSSClass + '-current-color"></div>'
-                     + '<div class="' + pickerCSSClass + '-hex"><input type="text" maxlength="6" size="6" /></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-r ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-g ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-rgb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-h ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-s ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field"><input type="text" maxlength="3" size="3" /><span></span></div>'
-                     + cancelButtonHTML
-                     + submitButtonHTML
-                   + '</div>';
+    var innerHTML = '<div class="' + pickerCSSClass + '-color"><div><div></div></div></div>'
+                  + '<div class="' + pickerCSSClass + '-hue"><div></div></div>'
+                  + '<div class="' + pickerCSSClass + '-new-color"></div>'
+                  + '<div class="' + pickerCSSClass + '-current-color"></div>'
+                  + '<div class="' + pickerCSSClass + '-hex">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="6" size="6" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-rgb-r ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-rgb-g ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-rgb-b ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-hsb-h ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-hsb-s ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + '<div class="' + pickerCSSClass + '-hsb-b ' + pickerCSSClass + '-field">'
+                    + '<input type="text" class="' + pickerCSSClass + '-input" maxlength="3" size="3" /><span></span>'
+                  + '</div>'
+                  + cancelButtonHTML
+                  + submitButtonHTML;
 
-    var defaults = {
-      allCaps:        true,
-      defaultColor:   'FF0000',
-      hideButtons:    true,
-      livePreview:    true,
-      onBeforeCancel: function (picker) { return true; },
-      onBeforeShow:   function (picker) { return true; },
-      onCancel:       function (hsb, hex, rgb, pickerElement) {},
-      onChange:       function (hsb, hex, rgb) {},
-      onHide:         function (pickerElement) {},
-      onShow:         function (pickerElement) {},
-      onSubmit:       function (hsb, hex, rgb, pickerElement) {},
-      pickerPosition: 'bottom-left',
-      popup:          true,
-      popupEvent:     'click'
-    };
+    var htmlStringAdvanced = '<div class="' + pickerCSSClass + '-advanced">' + innerHTML + '</div>';
+    var htmlStringSimple = '<div class="' + pickerCSSClass + '-simple">' + innerHTML + '</div>';
 
 
     var fillRGBFields = function (hsb, pickerElement) {
@@ -334,12 +353,12 @@ window.PickAColor = {};
 
       switch (ev.data.pickerPosition) {
         case 'top-left':
-          pickerPosition.top  = inputPosition.top - pickerHeight;
+          pickerPosition.top  = inputPosition.top - pickerDimens.advanced.height;
           pickerPosition.left = inputPosition.left;
           break;
         case 'top-right':
-          pickerPosition.top  = inputPosition.top - pickerHeight;
-          pickerPosition.left = inputPosition.right - pickerWidth;
+          pickerPosition.top  = inputPosition.top - pickerDimens.advanced.height;
+          pickerPosition.left = inputPosition.right - pickerDimens.advanced.width;
           break;
         case 'bottom-left':
           pickerPosition.top  = inputPosition.bottom;
@@ -347,22 +366,22 @@ window.PickAColor = {};
           break;
         case 'bottom-right':
           pickerPosition.top  = inputPosition.bottom;
-          pickerPosition.left = inputPosition.right - pickerWidth;
+          pickerPosition.left = inputPosition.right - pickerDimens.advanced.width;
           break;
         case 'left':
-          pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
-          pickerPosition.left = inputPosition.left - pickerWidth;
+          pickerPosition.top  = inputPosition.top - ((pickerDimens.advanced.height / 2) - (this.offsetHeight / 2));
+          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
           break;
         case 'left-top':
           pickerPosition.top  = inputPosition.top;
-          pickerPosition.left = inputPosition.left - pickerWidth;
+          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
           break;
         case 'left-bottom':
-          pickerPosition.top  = inputPosition.bottom - pickerHeight;
-          pickerPosition.left = inputPosition.left - pickerWidth;
+          pickerPosition.top  = inputPosition.bottom - pickerDimens.advanced.height;
+          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
           break;
         case 'right':
-          pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
+          pickerPosition.top  = inputPosition.top - ((pickerDimens.advanced.height / 2) - (this.offsetHeight / 2));
           pickerPosition.left = inputPosition.right;
           break;
         case 'right-top':
@@ -370,15 +389,15 @@ window.PickAColor = {};
           pickerPosition.left = inputPosition.right;
           break;
         case 'right-bottom':
-          pickerPosition.top  = inputPosition.bottom - pickerHeight;
+          pickerPosition.top  = inputPosition.bottom - pickerDimens.advanced.height;
           pickerPosition.left = inputPosition.right;
           break;
       }
 
       var viewPort = getViewport();
 
-      pickerPosition.bottom = pickerPosition.top + pickerHeight;
-      pickerPosition.right  = pickerPosition.left + pickerWidth;
+      pickerPosition.bottom = pickerPosition.top + pickerDimens.advanced.height;
+      pickerPosition.right  = pickerPosition.left + pickerDimens.advanced.width;
 
       var windowBoundaries = {
         top:    0,
@@ -390,7 +409,7 @@ window.PickAColor = {};
       if (pickerPosition.top < windowBoundaries.top) {
         pickerPosition.top = (ev.data.pickerPosition.startsWith('top') ? inputPosition.bottom : 0);
       } else if (pickerPosition.bottom  > windowBoundaries.bottom) {
-        pickerPosition.top -= (ev.data.pickerPosition.startsWith('bottom') ? (this.offsetHeight + pickerHeight) : (pickerPosition.bottom - windowBoundaries.bottom));
+        pickerPosition.top -= (ev.data.pickerPosition.startsWith('bottom') ? (this.offsetHeight + pickerDimens.advanced.height) : (pickerPosition.bottom - windowBoundaries.bottom));
       }
 
       if (pickerPosition.left < windowBoundaries.left) {
@@ -408,7 +427,7 @@ window.PickAColor = {};
         }
       } else if (pickerPosition.right > windowBoundaries.right) {
         if (ev.data.pickerPosition === 'right') {
-          pickerPosition.left = (inputPosition.left - pickerWidth);
+          pickerPosition.left = (inputPosition.left - pickerDimens.advanced.width);
         } else {
           pickerPosition.left -= (pickerPosition.right - windowBoundaries.right);
         }
@@ -679,8 +698,10 @@ window.PickAColor = {};
 
         return this.each(function () {
           if (!$(this).data(pickerIdDataKey)) {
-            var options = $.extend({}, opt);
-            var id = pickerCSSClass + parseInt(Math.random() * 1000);
+            var options    = $.extend({}, opt);
+            var id         = pickerCSSClass + parseInt(Math.random() * 1000);
+            var isAdvanced = (options.type === 'advanced');
+            var htmlString = isAdvanced ? htmlStringAdvanced : htmlStringSimple;
 
             if (options.hideButtons === true) {
               htmlString = htmlString.replace(cancelButtonHTML, "")
@@ -709,30 +730,32 @@ window.PickAColor = {};
             options.selectorIndic = options.selector.find('div div');
 
 
-            options.fields.on('keyup',  keyup)
-                          .on('change', change)
-                          .on('blur',   blur)
-                          .on('focus',  focus);
-
-            pickerElements.find('span')
-                          .on('mousedown', downIncrement);
-
-            pickerElements.find('.' + pickerCSSClass + '-current-color')
-                          .on('click', resetColor);
-
             pickerElements.find('.' + pickerCSSClass + '-hue')
                           .on('mousedown', downHue);
 
-            if (options.hideButtons === false) {
-              pickerElements.find('.' + pickerCSSClass + '-cancel')
-                            .on('mouseenter', giveFocus)
-                            .on('mouseleave', loseFocus)
-                            .on('click',      clickCancel);
+            if (isAdvanced) {
+              options.fields.on('keyup',  keyup)
+                            .on('change', change)
+                            .on('blur',   blur)
+                            .on('focus',  focus);
 
-              pickerElements.find('.' + pickerCSSClass + '-submit')
-                            .on('mouseenter', giveFocus)
-                            .on('mouseleave', loseFocus)
-                            .on('click',      clickSubmit);
+              pickerElements.find('span')
+                            .on('mousedown', downIncrement);
+
+              pickerElements.find('.' + pickerCSSClass + '-current-color')
+                            .on('click', resetColor);
+
+              if (options.hideButtons === false) {
+                pickerElements.find('.' + pickerCSSClass + '-cancel')
+                              .on('mouseenter', giveFocus)
+                              .on('mouseleave', loseFocus)
+                              .on('click',      clickCancel);
+
+                pickerElements.find('.' + pickerCSSClass + '-submit')
+                              .on('mouseenter', giveFocus)
+                              .on('mouseleave', loseFocus)
+                              .on('click',      clickSubmit);
+              }
             }
 
 

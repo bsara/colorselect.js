@@ -2,38 +2,58 @@
  * pickacolor.js - v#VERSION# - https://github.com/bsara/pickacolor.js
  *
  * Authors:
- *   Brandon Sara <bsara> (Owner)
+ *   Brandon Sara <bsara>
  *   Stefan Petre www.eyecon.ro (Original Author and Owner of "Color Picker" - http://www.eyecon.ro/colorpicker/)
+ *   Rob Foster
  *
  * License:
  *   Copyright (c) 2014 Brandon Dale Sara
  *   Dual licensed under the MIT and GPL-3.0 licenses (https://github.com/bsara/pickacolor.js/blob/master/LICENSES)
  */
 
-fonts = Arial, Helvetica, sans-serif
+$fonts          = Arial, Helvetica, sans-serif
+
+$advancedHeight = 176px
+$advancedWidth  = 356px
+
+$simpleHeight   = 176px
+$simpleWidth    = 210px
+
+
+/* TINY RESET */
+.pickacolor
+  line-height: 1
+  a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,button,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video
+    margin:         0
+    padding:        0
+    border:         0
+    font-size:      100%
+    vertical-align: baseline
+    font-weight:    400
+  article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section
+    display: block
+  ol,ul
+    list-style: none
+  blockquote,q
+    quotes: none
+  blockquote:after,blockquote:before,q:after,q:before
+    content: ''
+    content: none
+  table
+    border-collapse: collapse
+    border-spacing:  0
+  button:focus,input:focus,select:focus,textarea:focus
+    outline: 0
+  article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary
+    display: block
+/* END TINY RESET */
 
 
 .pickacolor
-  width:       356px
-  height:      176px
   overflow:    hidden
   position:    absolute
-  background:  url("../images/pickacolor_background.png")
-  font-family: fonts
+  font-family: $fonts
   display:     none
-
-
-  .pickacolor-cancel
-    position:   absolute
-    width:      22px
-    height:     22px
-    background: url("../images/pickacolor_cancel.png") top
-    left:       295px
-    top:        142px
-    overflow:   hidden
-
-    &.pickacolor_focus
-      background-position: bottom
 
 
   .pickacolor-color
@@ -83,6 +103,49 @@ fonts = Arial, Helvetica, sans-serif
       left:       0px
 
 
+  .pickacolor-slider
+    background-position: bottom
+
+
+  input.pickacolor-input
+    background-color: transparent
+    border:           1px solid transparent
+    position:         absolute
+    font-size:        10px
+    font-family:      $fonts
+    color:            #898989
+    top:              4px
+    right:            11px
+    text-align:       right
+    margin:           0
+    padding:          0
+    height:           11px
+
+
+
+.pickacolor-advanced
+  background:      url("../images/pickacolor_background_advanced_dark.png")
+  background-size: $advancedWidth $advancedHeight
+  width:           $advancedWidth
+  height:          $advancedHeight
+
+
+  @extend .pickacolor
+
+
+  .pickacolor-cancel
+    position:   absolute
+    width:      22px
+    height:     22px
+    background: url("../images/pickacolor_cancel.png") top
+    left:       295px
+    top:        142px
+    overflow:   hidden
+
+    &.pickacolor_focus
+      background-position: bottom
+
+
   .pickacolor-new-color
     position:   absolute
     width:      60px
@@ -99,21 +162,6 @@ fonts = Arial, Helvetica, sans-serif
     left:       283px
     top:        13px
     background: #f00
-
-
-  .pickacolor-hex
-    position:   absolute
-    width:      72px
-    height:     22px
-    background: url("../images/pickacolor_hex.png") top
-    left:       212px
-    top:        142px
-
-    &.pickacolor_focus
-      background-position: bottom
-
-    input
-      right: 6px
 
 
   .pickacolor-field
@@ -168,6 +216,29 @@ fonts = Arial, Helvetica, sans-serif
     left:             282px
 
 
+  /*
+  .pickacolor-focus
+    background-position: center
+  */
+
+
+  .pickacolor-hex
+    position:   absolute
+    width:      72px
+    height:     22px
+    background: url("../images/pickacolor_hex.png") top
+    left:       212px
+    top:        142px
+
+    /*
+    &.pickacolor-focus
+      background-position: bottom
+    */
+
+    input
+      right: 6px
+
+
   .pickacolor-submit
     position:   absolute
     width:      22px
@@ -177,28 +248,34 @@ fonts = Arial, Helvetica, sans-serif
     top:        142px
     overflow:   hidden
 
+    /*
     &.pickacolor_focus
       background-position: bottom
+    */
 
 
-  .pickacolor-focus
-    background-position: center
+
+.pickacolor-simple
+  background:      url("../images/pickacolor_background_simple_light.png")
+  background-size: $simpleWidth $simpleHeight
+  width:           $simpleWidth
+  height:          $simpleHeight
+
+  @extend .pickacolor
 
 
-  .pickacolor-slider
-    background-position: bottom
+  .pickacolor-cancel,
+  .pickacolor-new-color,
+  .pickacolor-current-color,
+  .pickacolor-hex,
+  .pickacolor-field,
+  .pickacolor-rgb-r,
+  .pickacolor-rgb-g,
+  .pickacolor-rgb-b,
+  .pickacolor-hsb-h,
+  .pickacolor-hsb-s,
+  .pickacolor-hsb-b,
+  .pickacolor-submit
+    display: none
 
 
-  input
-    background-color: transparent
-    border:           1px solid transparent
-    position:         absolute
-    font-size:        10px
-    font-family:      fonts
-    color:            #898989
-    top:              4px
-    right:            11px
-    text-align:       right
-    margin:           0
-    padding:          0
-    height:           11px

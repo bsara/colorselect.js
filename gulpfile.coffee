@@ -15,6 +15,7 @@ es          = require 'event-stream'
 fs          = require 'fs'
 jshint      = require 'gulp-jshint'
 minifyCSS   = require 'gulp-minify-css'
+open        = require 'gulp-open'
 rename      = require 'gulp-rename'
 replace     = require 'gulp-replace'
 runSequence = require 'run-sequence'
@@ -45,6 +46,9 @@ README_PATH       = "./README.md"
 BUILD_DIR         = "build/"
 DIST_DIR          = "dist/"
 SRC_DIR           = "src/"
+TEST_DIR          = "test/"
+
+DEMO_DIR          = "#{TEST_DIR}demo/"
 
 IMAGES_BUILD_DIR  = "#{BUILD_DIR}images/"
 IMAGES_DIST_DIR   = "#{DIST_DIR}images/"
@@ -72,8 +76,16 @@ gulp.task 'default', [ 'build' ]
 
 gulp.task 'ci',      () -> runSequence 'dist', 'publish'
 gulp.task 'lint',    () -> runSequence 'lint-coffee', 'lint-js'
-gulp.task 'build',   () -> runSequence 'build-coffee', 'build-js', 'build-styles', 'build-images'
+gulp.task 'build',   () -> runSequence 'inst-dep', 'build-coffee', 'build-js', 'build-styles', 'build-images'
 gulp.task 'rebuild', () -> runSequence 'clean-build', 'build'
+
+
+
+# ---- Execution Tasks ---- #
+
+gulp.task 'open-demo', () ->
+  gulp.src "#{DEMO_DIR}index.html"
+      .pipe open('file://<%file.path%>')
 
 
 
@@ -89,7 +101,7 @@ gulp.task 'inst-dep', () ->
 
 # ---- Cleaning Tasks ---- #
 
-gulp.task 'clean',   [ 'clean-build', 'clean-dist' ]
+gulp.task 'clean', [ 'clean-build', 'clean-dist' ]
 
 
 gulp.task 'clean-build', () ->

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PickAColor.js Demos</title>
+
+    <meta charset="utf-8" />
+    <meta name="description" content="Demos of PickAColor.js; a simple, yet stylish, javascript color picker." />
+
+    <link rel="license" href="https://github.com/bsara/pickacolor.js/blob/master/LICENSES" />
+
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        padding: 20px 100px 100px 100px;
+        font-size: 12pt;
+        background-color: #6E6E6E;
+      }
+
+      #wrapper {
+        background: #FBFBFB;
+        margin: 0 auto;
+        width: 1000px;
+        padding: 50px;
+        text-align: center;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+        -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+        box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+      }
+
+      #wrapper h1 {
+        font-size: 32pt;
+      }
+
+      #wrapper h2 {
+        font-size: 24pt;
+      }
+
+      #wrapper h3 {
+        font-size: 18pt;
+      }
+
+      #wrapper input {
+        color:#3C3C3C;
+        font-weight:500;
+        font-size: 18px;
+        border-radius: 0;
+        line-height: 22px;
+        background-color: #FBFBFB;
+        padding: 5px;
+        border: 2px solid #000;
+      }
+
+      #wrapper input:focus {
+        background: #FBFBFB;
+        box-shadow: 0;
+        border: 2px solid #000;
+        color: #000;
+        outline: none;
+        padding: 5px;
+      }
+
+      #wrapper section div {
+        text-align: left;
+        width: 30%;
+        padding: 10px 50px 150px 50px;
+        margin: 10px 50px 150px 50px;
+        display: inline-block;
+      }
+
+      #wrapper section div.left {
+        margin-right: auto;
+      }
+
+      #wrapper section div.right {
+        margin-left: auto;
+      }
+
+      #header {
+        padding-bottom: 50px;
+      }
+    </style>
+
+    <link rel="stylesheet" href="../../build/styles/pickacolor.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <header id="header">
+        <h1>PickAColor.js Demos</h1>
+      </header>
+
+      <section id="content">
+        <div id="simpleWrapper" class="left">
+          <h3>Simple Color Picker</h3>
+          <input type="text" id="simple" placeholder="Click Me!" value="" />
+        </div>
+        <div id="advancedWrapper" class="right">
+          <h3>Advanced Color Picker</h3>
+          <input type="text" id="advanced" placeholder="Click Me!" value="" />
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <script type="text/javascript" src="../../bower_components/jquery/jquery.min.js"></script>
+      <script type="text/javascript" src="../../build/pickacolor.js"></script>
+
+      <script type="text/javascript">
+        $(function() {
+          $('#simple').PickAColor({
+            onBeforeShow: function (picker) {
+              $(this).PickAColorSetColor(this.value);
+              return true;
+            },
+            onChange: function (hsb, hex, rgb) {
+              $(this).value = hex
+            }
+          });
+
+          $('#advanced').PickAColor({
+            type: 'advanced',
+
+            onBeforeShow: function (picker) {
+              $(this).PickAColorSetColor(this.value);
+              return true;
+            },
+            onChange: function (hsb, hex, rgb) {
+              $(this).value = hex
+            }
+          });
+        });
+      </script>
+    </footer>
+  </body>
+</html>
