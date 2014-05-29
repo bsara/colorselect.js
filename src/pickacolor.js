@@ -351,14 +351,17 @@ window.PickAColor = {};
 
       var pickerPosition = {};
 
-      switch (ev.data.pickerPosition) {
+      var pickerHeight = (picker.isAdvanced ? pickerDimens.advanced.height : pickerDimens.simple.height);
+      var pickerWidth  = (picker.isAdvanced ? pickerDimens.advanced.width  : pickerDimens.simple.width);
+
+      switch (picker.pickerPosition) {
         case 'top-left':
-          pickerPosition.top  = inputPosition.top - pickerDimens.advanced.height;
+          pickerPosition.top  = inputPosition.top - pickerHeight;
           pickerPosition.left = inputPosition.left;
           break;
         case 'top-right':
-          pickerPosition.top  = inputPosition.top - pickerDimens.advanced.height;
-          pickerPosition.left = inputPosition.right - pickerDimens.advanced.width;
+          pickerPosition.top  = inputPosition.top - pickerHeight;
+          pickerPosition.left = inputPosition.right - pickerWidth;
           break;
         case 'bottom-left':
           pickerPosition.top  = inputPosition.bottom;
@@ -366,22 +369,22 @@ window.PickAColor = {};
           break;
         case 'bottom-right':
           pickerPosition.top  = inputPosition.bottom;
-          pickerPosition.left = inputPosition.right - pickerDimens.advanced.width;
+          pickerPosition.left = inputPosition.right - pickerWidth;
           break;
         case 'left':
-          pickerPosition.top  = inputPosition.top - ((pickerDimens.advanced.height / 2) - (this.offsetHeight / 2));
-          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
+          pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
+          pickerPosition.left = inputPosition.left - pickerWidth;
           break;
         case 'left-top':
           pickerPosition.top  = inputPosition.top;
-          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
+          pickerPosition.left = inputPosition.left - pickerWidth;
           break;
         case 'left-bottom':
-          pickerPosition.top  = inputPosition.bottom - pickerDimens.advanced.height;
-          pickerPosition.left = inputPosition.left - pickerDimens.advanced.width;
+          pickerPosition.top  = inputPosition.bottom - pickerHeight;
+          pickerPosition.left = inputPosition.left - pickerWidth;
           break;
         case 'right':
-          pickerPosition.top  = inputPosition.top - ((pickerDimens.advanced.height / 2) - (this.offsetHeight / 2));
+          pickerPosition.top  = inputPosition.top - ((pickerHeight / 2) - (this.offsetHeight / 2));
           pickerPosition.left = inputPosition.right;
           break;
         case 'right-top':
@@ -389,15 +392,15 @@ window.PickAColor = {};
           pickerPosition.left = inputPosition.right;
           break;
         case 'right-bottom':
-          pickerPosition.top  = inputPosition.bottom - pickerDimens.advanced.height;
+          pickerPosition.top  = inputPosition.bottom - pickerHeight;
           pickerPosition.left = inputPosition.right;
           break;
       }
 
       var viewPort = getViewport();
 
-      pickerPosition.bottom = pickerPosition.top + pickerDimens.advanced.height;
-      pickerPosition.right  = pickerPosition.left + pickerDimens.advanced.width;
+      pickerPosition.bottom = pickerPosition.top + pickerHeight;
+      pickerPosition.right  = pickerPosition.left + pickerWidth;
 
       var windowBoundaries = {
         top:    0,
@@ -407,34 +410,34 @@ window.PickAColor = {};
       };
 
       if (pickerPosition.top < windowBoundaries.top) {
-        pickerPosition.top = (ev.data.pickerPosition.startsWith('top') ? inputPosition.bottom : 0);
+        pickerPosition.top = (picker.pickerPosition.startsWith('top') ? inputPosition.bottom : 0);
       } else if (pickerPosition.bottom  > windowBoundaries.bottom) {
-        pickerPosition.top -= (ev.data.pickerPosition.startsWith('bottom') ? (this.offsetHeight + pickerDimens.advanced.height) : (pickerPosition.bottom - windowBoundaries.bottom));
+        pickerPosition.top -= (picker.pickerPosition.startsWith('bottom') ? (this.offsetHeight + pickerHeight) : (pickerPosition.bottom - windowBoundaries.bottom));
       }
 
       if (pickerPosition.left < windowBoundaries.left) {
-        if (ev.data.pickerPosition === 'left') {
+        if (picker.pickerPosition === 'left') {
           pickerPosition.left = inputPosition.right;
         } else {
           pickerPosition.left = 0;
         }
 
-        if (ev.data.pickerPosition === 'left-bottom') {
+        if (picker.pickerPosition === 'left-bottom') {
 
-        } else if (ev.data.pickerPosition === 'left-top') {
+        } else if (picker.pickerPosition === 'left-top') {
           pickerPosition.top -= this.offsetHeight;
           pickerPosition.top += this.offsetHeight;
         }
       } else if (pickerPosition.right > windowBoundaries.right) {
-        if (ev.data.pickerPosition === 'right') {
-          pickerPosition.left = (inputPosition.left - pickerDimens.advanced.width);
+        if (picker.pickerPosition === 'right') {
+          pickerPosition.left = (inputPosition.left - pickerWidth);
         } else {
           pickerPosition.left -= (pickerPosition.right - windowBoundaries.right);
         }
 
-        if (ev.data.pickerPosition === 'right-bottom') {
+        if (picker.pickerPosition === 'right-bottom') {
           pickerPosition.top -= this.offsetHeight;
-        } else if (ev.data.pickerPosition === 'right-top') {
+        } else if (picker.pickerPosition === 'right-top') {
           pickerPosition.top += this.offsetHeight;
         }
       }
@@ -724,6 +727,7 @@ window.PickAColor = {};
             options.currentColor  = pickerElements.find('.' + pickerCSSClass + '-current-color');
             options.fields        = pickerElements.find('input');
             options.hue           = pickerElements.find('.' + pickerCSSClass + '-hue div');
+            options.isAdvanced    = isAdvanced;
             options.newColor      = pickerElements.find('.' + pickerCSSClass + '-new-color');
             options.origColor     = opt.defaultColor;
             options.selector      = pickerElements.find('.' + pickerCSSClass + '-color').on('mousedown', downSelector);
