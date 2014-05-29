@@ -204,12 +204,12 @@
               return true;
             },
             onChange: function (hsb, hex, rgb) {
-              $(this).value = hex
+              $('#simple').val("#" + hex);
             }
           });
 
           $('#simplePosition').on('change', function() {
-              $('#' + $('#simple').data('pickAColorPickerId')).data('pickAColor').pickerPosition = $(this).val();
+            $('#' + $('#simple').data('pickAColorPickerId')).data('pickAColor').pickerPosition = $(this).val();
           });
 
 
@@ -221,12 +221,12 @@
               return true;
             },
             onChange: function (hsb, hex, rgb) {
-              $(this).value = hex
+              $('#advanced').val("#" + hex);
             }
           });
 
           $('#advancedPosition').on('change', function() {
-              $('#' + $('#advanced').data('pickAColorPickerId')).data('pickAColor').pickerPosition = $(this).val();
+            $('#' + $('#advanced').data('pickAColorPickerId')).data('pickAColor').pickerPosition = $(this).val();
           });
         });
       </script>
