@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.13 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.14 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara>

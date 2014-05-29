@@ -94,13 +94,12 @@ $simpleWidth    = 210px
     cursor:   row-resize
 
     div
-      position:   absolute
-      width:      35px
-      height:     9px
-      overflow:   hidden
-      background: url("../images/pickacolor_indic.gif") left top
-      margin:     -4px 0 0 0
-      left:       0px
+      position:        absolute
+      width:           35px
+      height:          9px
+      overflow:        hidden
+      margin:          -4px 0 0 0
+      left:            0
 
 
   .pickacolor-slider
@@ -216,6 +215,12 @@ $simpleWidth    = 210px
     left:             282px
 
 
+  .pickacolor-hue
+    div
+      background:      url("../images/indicator_advanced_dark.png") 0 0 no-repeat
+      background-size: 6px
+
+
   /*
   .pickacolor-focus
     background-position: center
@@ -256,12 +261,19 @@ $simpleWidth    = 210px
 
 
 .pickacolor-simple
-  background:      url("../images/pickacolor_background_simple_light.png")
+  background:      url("../images/pickacolor_background_simple_light.png") 0 2px
   background-size: $simpleWidth $simpleHeight
   width:           $simpleWidth
   height:          $simpleHeight
 
+
   @extend .pickacolor
+
+
+  .pickacolor-hue
+    div
+      background:      url("../images/indicator_simple_light.png") 0 0 no-repeat
+      background-size: 6px
 
 
   .pickacolor-cancel,

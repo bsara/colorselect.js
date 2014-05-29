@@ -1,5 +1,5 @@
 /*!
- * pickacolor.js - v0.0.13 - https://github.com/bsara/pickacolor.js
+ * pickacolor.js - v0.0.14 - https://github.com/bsara/pickacolor.js
  *
  * Authors:
  *   Brandon Sara <bsara>
@@ -447,9 +447,8 @@
   width: 35px;
   height: 9px;
   overflow: hidden;
-  background: url("../images/pickacolor_indic.gif") left top;
   margin: -4px 0 0 0;
-  left: 0px;
+  left: 0;
 }
 .pickacolor .pickacolor-slider,
 .pickacolor-advanced .pickacolor-slider,
@@ -555,6 +554,10 @@
   top: 112px;
   left: 282px;
 }
+.pickacolor-advanced .pickacolor-hue div {
+  background: url("../images/indicator_advanced_dark.png") 0 0 no-repeat;
+  background-size: 6px;
+}
 .pickacolor-advanced .pickacolor-hex {
   position: absolute;
   width: 72px;
@@ -584,10 +587,14 @@
     */
 }
 .pickacolor-simple {
-  background: url("../images/pickacolor_background_simple_light.png");
+  background: url("../images/pickacolor_background_simple_light.png") 0 2px;
   background-size: 210px 176px;
   width: 210px;
   height: 176px;
+}
+.pickacolor-simple .pickacolor-hue div {
+  background: url("../images/indicator_simple_light.png") 0 0 no-repeat;
+  background-size: 6px;
 }
 .pickacolor-simple .pickacolor-cancel,
 .pickacolor-simple .pickacolor-new-color,
